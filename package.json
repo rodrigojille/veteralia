@@ -1,0 +1,16 @@
+{
+  "name": "veteralia-monorepo",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev:frontend": "yarn workspace frontend dev",
+    "dev:backend": "yarn workspace backend start:dev"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
