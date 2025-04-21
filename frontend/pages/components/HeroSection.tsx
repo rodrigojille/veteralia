@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography, Button, Container, Grid } from '@mui/material';
+import Link from 'next/link';
 
 export default function HeroSection() {
   return (
@@ -11,9 +12,18 @@ export default function HeroSection() {
         <Typography variant="h5" sx={{ mb: 4, color: '#457b9d' }}>
           Veteralia conecta a dueños de mascotas con veterinarios certificados en México. Reserva citas, consulta perfiles y cuida a tu mejor amigo con la mejor tecnología.
         </Typography>
-        <Button variant="contained" color="primary" size="large" href="/signup" sx={{ px: 5, py: 1.5, fontWeight: 700, fontSize: '1.1rem', borderRadius: 3 }}>
-          Comienza Ahora
-        </Button>
+        {/* Use Next.js Link wrapper for proper client-side navigation and <a href> rendering */}
+        <Link href="/signup" passHref legacyBehavior>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            component="a"
+            sx={{ px: 5, py: 1.5, fontWeight: 700, fontSize: '1.1rem', borderRadius: 3 }}
+          >
+            Comienza Ahora
+          </Button>
+        </Link>
       </Container>
     </Box>
   );

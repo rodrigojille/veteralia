@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { Box, Button, Container, Paper, Typography } from "@mui/material";
+import { Box, Button, Container, Paper, Typography, TextField } from "@mui/material";
 import axios from "axios";
 // Minimal JWT payload decoder (no dependency)
 function decodeJwtPayload(token: string) {
@@ -38,35 +38,49 @@ export default function UserLogin() {
 
 
   return (
-    <Container maxWidth="sm" sx={{ py: 8 }}>
-      <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 2 }}>
-        <Typography variant="h5" mb={2} color="#1d3557">User Login</Typography>
+    <Container maxWidth="sm" sx={{ mt: 8, mb: 6 }}>
+      <Paper sx={{ p: 4, borderRadius: 4, boxShadow: 3 }}>
+        <Box textAlign="center" mb={2}>
+          <img src="/logo.png" alt="Veteralia Logo" style={{ width: 80, marginBottom: 12 }} />
+          <Typography variant="h4" component="h1" color="primary" gutterBottom>
+            Iniciar sesión
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            Ingresa tus datos para acceder a tu cuenta.
+          </Typography>
+        </Box>
         <form onSubmit={handleLogin}>
           <Box mb={2}>
-            <input
+            <TextField
+              label="Correo electrónico"
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="Email"
+              fullWidth
               required
-              style={{ width: '100%', padding: 10, borderRadius: 8, border: '1px solid #ddd' }}
+              sx={{ mb: 2 }}
             />
-          </Box>
-          <Box mb={2}>
-            <input
+            <TextField
+              label="Contraseña"
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder="Password"
+              fullWidth
               required
-              style={{ width: '100%', padding: 10, borderRadius: 8, border: '1px solid #ddd' }}
+              sx={{ mb: 2 }}
+              inputProps={{ minLength: 6 }}
             />
           </Box>
           {error && <Typography color="error" mb={2}>{error}</Typography>}
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ borderRadius: 2 }}>
-            Login
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ borderRadius: 2, py: 1.5, fontWeight: 600, fontSize: 18 }}>
+            Iniciar sesión
           </Button>
         </form>
+        <Box textAlign="center" mt={3}>
+          <Typography variant="body2">
+            ¿No tienes cuenta? <a href="/signup" style={{ color: "#00BFA6", textDecoration: "underline" }}>Regístrate</a>
+          </Typography>
+        </Box>
       </Paper>
     </Container>
   );
