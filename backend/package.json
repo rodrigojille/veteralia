@@ -8,25 +8,31 @@
     "start:dev": "nest start --watch"
   },
   "dependencies": {
-    "@nestjs/core": "^10.0.0",
+    "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^10.0.0",
+    "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.0",
-    "typeorm": "^0.3.17",
-    "pg": "^8.11.1",
-    "@nestjs/config": "^3.0.0",
-    "@nestjs/passport": "^10.0.0",
+    "@nestjs/websockets": "^10.0.0",
+    "axios": "^1.6.0",
+    "bcryptjs": "^3.0.2",
+    "class-validator": "^0.14.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
-    "@nestjs/jwt": "^10.0.0",
-    "@nestjs/websockets": "^10.0.0",
-    "socket.io": "^4.7.5",
+    "pg": "^8.11.1",
     "redis": "^4.6.7",
-    "@nestjs/axios": "^3.0.0",
-    "axios": "^1.6.0"
+    "rxjs": "^7.8.2",
+    "socket.io": "^4.7.5",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
+    "@types/express": "^5.0.1",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
     "typescript": "^5.0.0"
   }
 }
