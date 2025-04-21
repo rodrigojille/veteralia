@@ -1,14 +1,10 @@
 import React from 'react';
-import Lottie from 'lottie-react';
-import animationData from '../public/vet-hero-animation.json';
 
 const HeroAnimation = () => (
-  <Lottie 
-    animationData={animationData}
-    loop
-    style={{ width: '320px', height: '320px', margin: '0 auto' }}
-    aria-label="Veterinario animación"
-  />
+  <div style={{ width: 320, height: 320, margin: '0 auto', background: '#f0f0f0', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888', fontWeight: 600 }}>
+    {/* Animation coming soon! */}
+    Veteralia
+  </div>
 );
 
 export default HeroAnimation;
