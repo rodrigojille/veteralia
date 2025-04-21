@@ -8,6 +8,7 @@ async function bootstrap() {
     origin: [
       'https://veteralia.netlify.app', // Netlify default domain
       'https://www.veteralia.netlify.app', // Netlify www subdomain
+      'https://veteralia-beta-sgjnj.netlify.app', // Netlify deploy domain
       'http://localhost:3000', // Local development
     ],
     credentials: true,
