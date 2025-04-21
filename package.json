@@ -11,6 +11,7 @@
     "dev:backend": "yarn workspace backend start:dev"
   },
   "devDependencies": {
+  "_netlifyCacheBust": "2025-04-21T10:17:30-06:00",
     "typescript": "^5.0.0"
   }
 }
