@@ -19,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
 const navLinks = [
-  { label: 'Inicio', href: '/' },
+  { label: 'Buscar Veterinario', href: '/' },
   { label: 'Registrarse', href: '/signup' },
   { label: 'Iniciar Sesión', href: '/login' },
 ];
@@ -36,20 +36,24 @@ export default function NavBar() {
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box display="flex" alignItems="center" minWidth={0} sx={{ flexShrink: 1 }}>
-            <Box
-              component="img"
-              src="/logo.png"
-              alt="Veteralia Logo"
-              sx={{ width: { xs: 36, sm: 50 }, mr: 1.5, flexShrink: 0 }}
-            />
-            <Typography
-              variant="h6"
-              color="#1d3557"
-              fontWeight={700}
-              sx={{ letterSpacing: 1, fontSize: { xs: '1.1rem', sm: '1.25rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 110, sm: 180 } }}
-            >
-              Veteralia
-            </Typography>
+            <Link href="/" passHref legacyBehavior>
+  <Box component="a" display="flex" alignItems="center" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+    <Box
+      component="img"
+      src="/logo.png"
+      alt="Veteralia Logo"
+      sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
+    />
+    <Typography
+      variant="h6"
+      color="#1d3557"
+      fontWeight={700}
+      sx={{ fontFamily: 'Inter, Arial, sans-serif', letterSpacing: 1, fontSize: { xs: '1.18rem', sm: '1.32rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 120, sm: 180 }, ml: 0 }}
+    >
+      Veteralia
+    </Typography>
+  </Box>
+</Link>
           </Box>
           {isMobile ? (
             <>
@@ -69,15 +73,24 @@ export default function NavBar() {
                 PaperProps={{ sx: { width: 220 } }}
               >
                 <Box sx={{ mt: 2, mb: 1, px: 2, display: 'flex', alignItems: 'center' }}>
-                  <Box
-                    component="img"
-                    src="/logo.png"
-                    alt="Veteralia Logo"
-                    sx={{ width: 36, mr: 1 }}
-                  />
-                  <Typography variant="h6" color="#1d3557" fontWeight={700} sx={{ letterSpacing: 1 }}>
-                    Veteralia
-                  </Typography>
+                  <Link href="/" passHref legacyBehavior>
+                    <Box component="a" display="flex" alignItems="center" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                      <Box
+                        component="img"
+                        src="/logo.png"
+                        alt="Veteralia Logo"
+                        sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
+                      />
+                      <Typography
+                        variant="h6"
+                        color="#1d3557"
+                        fontWeight={700}
+                        sx={{ fontFamily: 'Inter, Arial, sans-serif', letterSpacing: 1, fontSize: { xs: '1.18rem', sm: '1.32rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 120, sm: 180 }, ml: 0 }}
+                      >
+                        Veteralia
+                      </Typography>
+                    </Box>
+                  </Link>
                 </Box>
                 <List>
                   {navLinks.map(({ label, href }) => (
@@ -102,7 +115,7 @@ export default function NavBar() {
                   component={Link}
                   href={href}
                   color="primary"
-                  sx={{ fontWeight: 600 }}
+                  sx={{ fontFamily: 'Inter, Arial, sans-serif', fontWeight: 600, fontSize: { xs: '1rem', md: '1.05rem' } }}
                 >
                   {label}
                 </Button>
