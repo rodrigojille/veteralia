@@ -19,7 +19,9 @@
     "leaflet": "^1.9.4",
     "axios": "^1.6.0",
     "recharts": "^2.7.2",
-    "@mui/icons-material": "^5.15.0"
+    "@mui/icons-material": "^5.15.0",
+    "react-i18next": "^13.2.1",
+    "i18next": "^23.4.6"
   },
   "devDependencies": {
 
