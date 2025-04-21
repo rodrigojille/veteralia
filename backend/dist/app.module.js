@@ -8,14 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const auth_module_1 = require("./modules/auth/auth.module");
+const users_module_1 = require("./modules/users/users.module");
+const user_entity_1 = require("./modules/users/user.entity");
+const vet_profile_entity_1 = require("./modules/vet-profile/vet-profile.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
-        controllers: [],
-        providers: [],
+        imports: [
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'postgres',
+                host: process.env.DB_HOST || 'localhost',
+                port: parseInt(process.env.DB_PORT || '5432', 10),
+                username: process.env.DB_USERNAME || 'postgres',
+                password: process.env.DB_PASSWORD || '140290',
+                database: process.env.DB_NAME || 'veteralia',
+                entities: [user_entity_1.User, vet_profile_entity_1.VetProfile],
+                synchronize: false,
+                autoLoadEntities: true,
+            }),
+            auth_module_1.AuthModule,
+            users_module_1.UsersModule,
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
