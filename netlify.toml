@@ -1,6 +1,5 @@
 [build]
-  base = "frontend"
-  command = "npm run build"
+  command = "npm run build --workspace=frontend"
   publish = "frontend/.next"
 
 [build.environment]
