@@ -7,6 +7,10 @@ const Map = dynamic(() => import("./MapLeaflet"), { ssr: false });
 interface LocationPickerProps {
   value: { lat: number; lng: number } | null;
   onChange: (val: { lat: number; lng: number }) => void;
+  address?: string;
+  setAddress?: React.Dispatch<React.SetStateAction<string>>;
+  loading?: boolean;
+  setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function LocationPicker({ value, onChange }: LocationPickerProps) {

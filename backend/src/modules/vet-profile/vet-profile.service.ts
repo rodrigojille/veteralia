@@ -36,6 +36,62 @@ export class VetProfileService {
     };
   }
 
+  // Like publicList, but returns all vets regardless of approval status
+  async allPublicList(search: string = '', page: number = 1, limit: number = 10) {
+    const qb = this.vetProfileRepo.createQueryBuilder('profile')
+      .leftJoinAndSelect('profile.user', 'user');
+    if (search) {
+      qb.where(
+        '(LOWER(user.name) LIKE :search OR LOWER(profile.specialty) LIKE :search OR LOWER(profile.location) LIKE :search)',
+        { search: `%${search.toLowerCase()}%` }
+      );
+    }
+    qb.skip((page - 1) * limit).take(limit);
+    const [profiles, total] = await qb.getManyAndCount();
+    return {
+      total,
+      page,
+      limit,
+      results: profiles.map((profile) => ({
+        id: profile.id,
+        name: profile.user.name,
+        specialty: profile.specialty,
+        location: profile.location,
+        language: profile.user.language,
+        pricingTier: profile.pricingTier,
+        schedule: profile.schedule,
+        approved: profile.approved
+      })),
+    };
+  }
+    const qb = this.vetProfileRepo.createQueryBuilder('profile')
+      .leftJoinAndSelect('profile.user', 'user')
+      .where('profile.approved = :approved', { approved: true });
+    if (search) {
+      qb.andWhere(
+        '(LOWER(user.name) LIKE :search OR LOWER(profile.specialty) LIKE :search OR LOWER(profile.location) LIKE :search)',
+        { search: `%${search.toLowerCase()}%` }
+      );
+    }
+    qb.skip((page - 1) * limit).take(limit);
+    const [profiles, total] = await qb.getManyAndCount();
+    // Only return public-facing fields
+    return {
+      total,
+      page,
+      limit,
+      results: profiles.map((profile) => ({
+        id: profile.id,
+        name: profile.user.name,
+        specialty: profile.specialty,
+        location: profile.location,
+        language: profile.user.language,
+        pricingTier: profile.pricingTier,
+        schedule: profile.schedule,
+      })),
+    };
+  }
+
   async publicProfileById(id: string) {
     const profile = await this.vetProfileRepo.createQueryBuilder('profile')
       .leftJoinAndSelect('profile.user', 'user')
@@ -85,6 +141,13 @@ export class VetProfileService {
 
   async findAllPendingApproval() {
     return this.vetProfileRepo.find({ where: { approved: false } });
+  }
+
+  // Admin: get all profiles (approved and unapproved) with user details
+  async findAllProfilesWithUser() {
+    return this.vetProfileRepo.createQueryBuilder('profile')
+      .leftJoinAndSelect('profile.user', 'user')
+      .getMany();
   }
 
   async approveProfile(id: string) {
