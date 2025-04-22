@@ -5,6 +5,7 @@ import { PetService } from './pet.service';
 import { PetController } from './pet.controller';
 
 @Module({
+  exports: [],
   imports: [TypeOrmModule.forFeature([Pet])],
   providers: [PetService],
   controllers: [PetController],
