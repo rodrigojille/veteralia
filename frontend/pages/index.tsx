@@ -135,9 +135,9 @@ export default function Home() {
         {/* Right: Hero Illustration (centered on mobile/desktop) */}
         <Box flex={1} display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
           <img
-            src="/hero-vet.svg"
-            alt="Veteralia Hero"
-            style={{ width: '100%', maxWidth: 340, minWidth: 180 }}
+            src="/landing.jpg"
+            alt="Veteralia Landing"
+            style={{ width: '100%', maxWidth: 480, minWidth: 240, borderRadius: 16, boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}
           />
         </Box>
       </Box>
