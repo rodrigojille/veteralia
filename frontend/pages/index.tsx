@@ -108,7 +108,7 @@ export default function Home() {
             color="text.secondary"
             sx={{ mb: 4, fontSize: { xs: '1.1rem', sm: '1.25rem' } }}
           >
-            Plataforma moderna para dueños de mascotas y veterinarios en México. Fácil, rápido y confiable.
+            Encuentra un veterinario y agenda tu cita en línea. Fácil, rápido y confiable.
           </Typography>
           <Button
             variant="contained"
