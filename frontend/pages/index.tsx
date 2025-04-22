@@ -54,7 +54,7 @@ export default function Home() {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Head>
-        <title>Veteralia | Encuentra y agenda con veterinarios</title>
+        <title>Vetoralia | Encuentra y agenda con veterinarios</title>
         <meta name="description" content="La mejor plataforma para dueños de mascotas y veterinarios en México." />
       </Head>
       {/* Shared NavBar */}
@@ -136,7 +136,7 @@ export default function Home() {
         <Box flex={1} display="flex" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
           <img
             src="/landing.jpg"
-            alt="Veteralia Landing"
+            alt="Vetoralia Landing"
             style={{ width: '100%', maxWidth: 480, minWidth: 240, borderRadius: 16, boxShadow: '0 4px 24px rgba(0,0,0,0.07)' }}
           />
         </Box>
@@ -363,8 +363,8 @@ export default function Home() {
       <Box component="footer" sx={{ bgcolor: 'background.paper', borderTop: 1, borderColor: 'divider', mt: 10, py: 4 }}>
         <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="space-between" maxWidth="lg" mx="auto" px={2} gap={2}>
           <Box display="flex" alignItems="center" gap={1}>
-            <img src="/logo.png" alt="Veteralia Logo" style={{ width: 36, height: 36 }} />
-            <Typography variant="h6" color="primary" sx={{ fontWeight: 700 }}>Veteralia</Typography>
+            <img src="/logo.png" alt="Vetoralia Logo" style={{ width: 36, height: 36 }} />
+            <Typography variant="h6" color="primary" sx={{ fontWeight: 700 }}>Vetoralia</Typography>
           </Box>
           <Box display="flex" gap={3} alignItems="center" mt={{ xs: 2, md: 0 }}>
             <Link href="/terminos" passHref legacyBehavior><Button color="inherit" size="small">Términos</Button></Link>
@@ -373,7 +373,7 @@ export default function Home() {
           </Box>
         </Box>
         <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 2 }}>
-          © {new Date().getFullYear()} Veteralia. Todos los derechos reservados.
+          © {new Date().getFullYear()} Vetoralia. Todos los derechos reservados.
         </Typography>
       </Box>
     </Box>

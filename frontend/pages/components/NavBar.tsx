@@ -41,7 +41,7 @@ export default function NavBar() {
     <Box
       component="img"
       src="/logo.png"
-      alt="Veteralia Logo"
+      alt="Vetoralia Logo"
       sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
       onClick={() => { window.location.href = '/'; }}
       style={{ cursor: 'pointer' }}
@@ -52,7 +52,7 @@ export default function NavBar() {
       fontWeight={700}
       sx={{ fontFamily: 'Inter, Arial, sans-serif', letterSpacing: 1, fontSize: { xs: '1.18rem', sm: '1.32rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 120, sm: 180 }, ml: 0 }}
     >
-      Veteralia
+      Vetoralia
     </Typography>
   </Box>
 </Link>
@@ -80,7 +80,7 @@ export default function NavBar() {
                       <Box
                         component="img"
                         src="/logo.png"
-                        alt="Veteralia Logo"
+                        alt="Vetoralia Logo"
                         sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
                       />
                       <Typography
@@ -89,7 +89,7 @@ export default function NavBar() {
                         fontWeight={700}
                         sx={{ fontFamily: 'Inter, Arial, sans-serif', letterSpacing: 1, fontSize: { xs: '1.18rem', sm: '1.32rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 120, sm: 180 }, ml: 0 }}
                       >
-                        Veteralia
+                        Vetoralia
                       </Typography>
                     </Box>
                   </Link>
