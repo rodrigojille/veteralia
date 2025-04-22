@@ -69,7 +69,6 @@ export class VetProfileService {
     const profile = await this.vetProfileRepo.createQueryBuilder('profile')
       .leftJoinAndSelect('profile.user', 'user')
       .where('profile.id = :id', { id })
-      .andWhere('profile.approved = :approved', { approved: true })
       .getOne();
     if (!profile) return null;
     return {
