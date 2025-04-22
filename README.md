@@ -36,3 +36,4 @@ For WhatsApp Business API setup, see `docs/whatsapp-setup.md`.
 ---
 
 © 2025 Veteralia. All rights reserved.
+
