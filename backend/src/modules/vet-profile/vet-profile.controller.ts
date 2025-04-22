@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body, Req, Get, Param, Patch } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Req, Get, Param, Patch, Query } from '@nestjs/common';
 import { VetProfileService } from './vet-profile.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -6,6 +6,23 @@ import { Request } from 'express';
 @Controller('vet-profile')
 export class VetProfileController {
   constructor(private readonly vetProfileService: VetProfileService) {}
+
+  // --- PUBLIC ENDPOINTS ---
+  // Paginated, searchable list of approved vets
+  @Get('public')
+  async publicList(
+    @Query('search') search: string = '',
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10
+  ) {
+    return this.vetProfileService.publicList(search, page, limit);
+  }
+
+  // Public vet profile by vetProfile id
+  @Get('public/:id')
+  async publicProfile(@Param('id') id: string) {
+    return this.vetProfileService.publicProfileById(id);
+  }
 
   // Vet or secretary creates/updates their profile
   @UseGuards(AuthGuard('jwt'))

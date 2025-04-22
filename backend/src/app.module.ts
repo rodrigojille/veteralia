@@ -1,3 +1,4 @@
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
@@ -21,7 +22,7 @@ import { VetProfile } from './modules/vet-profile/vet-profile.entity';
       entities: [User, VetProfile],
       synchronize: false,
       autoLoadEntities: true,
-      ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
+      ssl: process.env.DATABASE_URL && process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     AuthModule,
     UsersModule,

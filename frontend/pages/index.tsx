@@ -11,51 +11,44 @@ import Link from 'next/link';
 
 import { useEffect, useState } from 'react';
 
-// Example veterinarian data (replace with API data as needed)
-const VETS = [
-  {
-    id: 1,
-    name: 'Dra. Ana López',
-    specialty: 'Perros y gatos',
-    location: { lat: 19.4326, lng: -99.1332 },
-    address: 'CDMX, Roma Norte',
-  },
-  {
-    id: 2,
-    name: 'Dr. Carlos Méndez',
-    specialty: 'Exóticos',
-    location: { lat: 19.427, lng: -99.14 },
-    address: 'CDMX, Condesa',
-  },
-  {
-    id: 3,
-    name: 'Dra. María Torres',
-    specialty: 'Aves',
-    location: { lat: 19.45, lng: -99.15 },
-    address: 'CDMX, Polanco',
-  },
-];
+
+
+import { apiFetch } from '../utils/api';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
   const [search, setSearch] = useState('');
-  const [filteredVets, setFilteredVets] = useState(VETS);
+  const [filteredVets, setFilteredVets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    // Filter vets by name, specialty, or address
-    const q = search.toLowerCase();
-    setFilteredVets(
-      VETS.filter(
-        vet =>
-          vet.name.toLowerCase().includes(q) ||
-          vet.specialty.toLowerCase().includes(q) ||
-          vet.address.toLowerCase().includes(q)
-      )
-    );
+    if (!search) {
+      setFilteredVets([]);
+      setShowDropdown(false);
+      setError(null);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    apiFetch(`/vet-profile/public?search=${encodeURIComponent(search)}&limit=7`)
+      .then((data) => {
+        setFilteredVets(data.results || []);
+        setShowDropdown(true);
+      })
+      .catch(() => {
+        setError('No se pudieron cargar los veterinarios.');
+        setFilteredVets([]);
+        setShowDropdown(false);
+      })
+      .finally(() => setLoading(false));
   }, [search]);
 
   return (
@@ -211,6 +204,65 @@ export default function Home() {
               Buscar
             </Button>
           </Box>
+
+          {/* Vet search results dropdown */}
+          {search && showDropdown && (
+  <Box
+    mt={2}
+    sx={{
+      width: '100%',
+      maxWidth: 700,
+      mx: 'auto',
+      bgcolor: '#fff',
+      border: '1px solid #e0e0e0',
+      borderRadius: 2,
+      boxShadow: 2,
+      zIndex: 10,
+      position: 'relative',
+    }}
+    tabIndex={-1}
+    onBlur={() => setShowDropdown(false)}
+  >
+    {loading && (
+      <Box p={2} textAlign="center">
+        <span style={{ color: '#888' }}>Cargando...</span>
+      </Box>
+    )}
+    {!loading && error && (
+      <Box p={2} textAlign="center">
+        <span style={{ color: 'red' }}>{error}</span>
+      </Box>
+    )}
+    {!loading && !error && filteredVets.length === 0 && (
+      <Box p={2} textAlign="center">
+        <span style={{ color: '#888' }}>No se encontraron veterinarios.</span>
+      </Box>
+    )}
+    {!loading && !error && filteredVets.map(vet => (
+      <Box
+        key={vet.id}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          px: 2,
+          py: 1.5,
+          borderBottom: '1px solid #f0f0f0',
+          cursor: 'pointer',
+          '&:hover': { bgcolor: '#f5f5f5' },
+        }}
+        onMouseDown={() => {
+          setShowDropdown(false);
+          router.push(`/vet-profile?id=${vet.id}`);
+        }}
+      >
+        <Box flex={1}>
+          <strong>{vet.name}</strong> <span style={{ color: '#888', fontSize: 13 }}>({vet.specialty})</span>
+          <div style={{ color: '#888', fontSize: 13 }}>{vet.address}</div>
+        </Box>
+      </Box>
+    ))}
+  </Box>
+)}
         </Box>
       </Box>
 
