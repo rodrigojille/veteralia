@@ -11,10 +11,9 @@ export class VetProfileController {
   @UseGuards(AuthGuard('jwt'))
   @Post('me')
   async createOrUpdate(@Req() req: Request, @Body() data: any) {
-    // Only allow for veterinarian or secretary
     const user: any = req.user;
     if (!['veterinarian', 'secretary'].includes(user.role)) {
-      return { error: 'Unauthorized' };
+      return { statusCode: 403, message: 'Forbidden: Only veterinarians or secretaries can access this endpoint.' };
     }
     return this.vetProfileService.createOrUpdate(user, data);
   }
@@ -24,6 +23,9 @@ export class VetProfileController {
   @Get('me')
   async getMyProfile(@Req() req: Request) {
     const user: any = req.user;
+    if (!['veterinarian', 'secretary'].includes(user.role)) {
+      return { statusCode: 403, message: 'Forbidden: Only veterinarians or secretaries can access this endpoint.' };
+    }
     return this.vetProfileService.findByUserId(user.id);
   }
 

@@ -4,6 +4,7 @@ import { Container, Typography, Box, Paper, CircularProgress, Alert, Button, Lis
 import { useRouter } from "next/router";
 import { fetchVetProfile } from "./api/fetchVetProfile";
 import { fetchVetAppointments } from "./api/fetchVetAppointments";
+import { fetchVetUserProfile } from "./api/fetchVetUserProfile";
 
 function decodeJwtPayload(token: string) {
   const payload = token.split('.')[1];
@@ -14,8 +15,10 @@ export default function VetDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const [appointments, setAppointments] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [vetProfileError, setVetProfileError] = useState<string | null>(null);
   const [tab, setTab] = useState(0);
 
   useEffect(() => {
@@ -37,13 +40,22 @@ export default function VetDashboard() {
       router.replace("/dashboard");
       return;
     }
-    // Fetch profile and appointments
+    // Fetch vet profile, user profile, and appointments
     Promise.all([
-      fetchVetProfile(token),
+      fetchVetProfile(token).catch((err) => {
+        if (err?.response?.status === 403) {
+          setVetProfileError("You do not have a veterinarian profile. Please contact support if this is an error.");
+          return null;
+        }
+        setVetProfileError("Error loading veterinarian profile.");
+        return null;
+      }),
+      fetchVetUserProfile(token),
       fetchVetAppointments(token),
     ])
-      .then(([profileData, appointmentsData]) => {
+      .then(([profileData, userProfileData, appointmentsData]) => {
         setProfile(profileData);
+        setUserProfile(userProfileData);
         setAppointments(Array.isArray(appointmentsData) ? appointmentsData : []);
         setLoading(false);
       })
@@ -101,13 +113,25 @@ export default function VetDashboard() {
               <img src="/logo.png" alt="Veteralia Logo" style={{ width: 80, marginBottom: 12 }} />
             </Box>
             <Typography variant="h6">Profile</Typography>
-            <Typography><b>Name:</b> {profile?.user?.name}</Typography>
-            <Typography><b>Email:</b> {profile?.user?.email}</Typography>
-            <Typography><b>Phone:</b> {profile?.user?.phone || '-'}</Typography>
-            <Typography><b>Specialty:</b> {profile?.specialty || '-'}</Typography>
-            <Typography><b>Location:</b> {profile?.location || '-'}</Typography>
-            <Typography><b>Plan:</b> {profile?.pricingTier || '-'}</Typography>
-            <Typography><b>Approved:</b> {profile?.approved ? 'Yes' : 'No'}</Typography>
+            {userProfile && (
+              <>
+                <Typography><b>Name:</b> {userProfile?.name}</Typography>
+                <Typography><b>Email:</b> {userProfile?.email}</Typography>
+                <Typography><b>Phone:</b> {userProfile?.phone || '-'}</Typography>
+                <Typography><b>Role:</b> {userProfile?.role || '-'}</Typography>
+              </>
+            )}
+            {profile && (
+              <>
+                <Typography><b>Specialty:</b> {profile?.specialty || '-'}</Typography>
+                <Typography><b>Location:</b> {profile?.location || '-'}</Typography>
+                <Typography><b>Plan:</b> {profile?.pricingTier || '-'}</Typography>
+                <Typography><b>Approved:</b> {profile?.approved ? 'Yes' : 'No'}</Typography>
+              </>
+            )}
+            {vetProfileError && (
+              <Alert severity="warning" sx={{ mt: 2 }}>{vetProfileError}</Alert>
+            )}
             <Box textAlign="right" mt={2}>
               <Button variant="outlined" color="secondary" onClick={() => {
                 localStorage.removeItem("user_token");
