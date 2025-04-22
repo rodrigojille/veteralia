@@ -198,10 +198,7 @@ export default function Signup() {
                     loading={addressLoading}
                     setLoading={setAddressLoading}
                   />
-                    }
-                    setAddressLoading(false);
-                  }}
-                />
+                </Box>
                 <Box mt={1} mb={2}>
                   {addressLoading && <CircularProgress size={18} sx={{ mr: 1 }} />}
                   {address && (

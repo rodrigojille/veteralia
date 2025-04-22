@@ -38,7 +38,7 @@ export default function Home() {
     }
     setLoading(true);
     setError(null);
-    apiFetch(`/vet-profile/public?search=${encodeURIComponent(search)}&limit=7`)
+    apiFetch(`/vet-profile/all-public?search=${encodeURIComponent(search)}&limit=7`)
       .then((data) => {
         setFilteredVets(data.results || []);
         setShowDropdown(true);
