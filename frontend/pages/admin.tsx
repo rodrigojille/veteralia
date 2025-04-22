@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Typography, Grid, Paper, Button, Avatar, List, ListItem, ListItemAvatar, ListItemText, Divider, Tabs, Tab, AppBar } from "@mui/material";
+import { Box, Container, Typography, Grid, Paper, Button, Avatar, List, ListItem, ListItemAvatar, ListItemText, Divider, Tabs, Tab, AppBar, Alert } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 import { useState, useEffect } from "react";
@@ -139,8 +139,11 @@ export default function AdminDashboard() {
       {tab === 1 && (
         <Paper sx={{ p: 3, borderRadius: 3, mt: 2 }}>
           <Typography variant="h5" mb={2} color="#1d3557">Pending Vet Profiles</Typography>
-          {loading && <Typography>Loading...</Typography>}
-          {error && <Typography color="error">{error}</Typography>}
+          {loading && <Typography>Loading pending profiles...</Typography>}
+          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {!loading && pendingProfiles.length === 0 && !error && (
+            <Typography>No pending vet profiles found.</Typography>
+          )}
           <List>
             {pendingProfiles.map((profile) => (
               <React.Fragment key={profile.id}>
