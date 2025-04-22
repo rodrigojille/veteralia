@@ -23,14 +23,17 @@ export default function Privacidad() {
             Tu privacidad es importante para Vetoralia. Esta política explica cómo recopilamos, usamos y protegemos tu información personal.
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            1. **Recopilación de información:** Solo recolectamos los datos necesarios para brindarte nuestros servicios (nombre, email, información de mascotas, etc.).
-2. **Uso de la información:** Utilizamos tus datos para gestionar cuentas, reservas y mejorar la experiencia en Vetoralia.
-3. **Protección de datos:** Implementamos medidas de seguridad para proteger tu información personal.
-4. **Compartir datos:** No vendemos ni compartimos tus datos con terceros sin tu consentimiento, salvo requerimiento legal.
-5. **Cookies:** Usamos cookies para mejorar la funcionalidad del sitio. Puedes gestionarlas desde tu navegador.
-6. **Tus derechos:** Puedes acceder, corregir o eliminar tus datos personales contactándonos en privacidad@vetoralia.com.
+            1. **Responsable del Tratamiento de Datos:** Vetoralia S.A. de C.V., con domicilio en Ciudad de México, es responsable del tratamiento de tus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).
+2. **Datos Recabados:** Recabamos datos como nombre, correo electrónico, información de mascotas y datos de contacto para brindarte nuestros servicios.
+3. **Finalidades:** Tus datos serán utilizados para gestionar cuentas, reservas, contacto y mejorar la experiencia en Vetoralia. No se utilizarán para fines distintos sin tu consentimiento.
+4. **Transferencia de Datos:** No transferimos tus datos personales a terceros sin tu consentimiento, salvo obligación legal.
+5. **Derechos ARCO:** Puedes ejercer tus derechos de Acceso, Rectificación, Cancelación y Oposición (ARCO) enviando un correo a privacidad@vetoralia.com. Atenderemos tu solicitud en los plazos establecidos por la ley.
+6. **Consentimiento:** Al utilizar la plataforma y proporcionar tus datos, otorgas tu consentimiento para su tratamiento conforme a esta política.
+7. **Cookies:** Usamos cookies para mejorar la funcionalidad del sitio. Puedes deshabilitarlas desde la configuración de tu navegador.
+8. **Cambios a la Política:** Nos reservamos el derecho de modificar esta política. Los cambios serán notificados en la plataforma.
+9. **Jurisdicción:** Cualquier controversia será resuelta conforme a la LFPDPPP y las leyes mexicanas aplicables.
 
-Si tienes preguntas sobre esta política, escríbenos a privacidad@vetoralia.com.
+Para dudas o solicitudes, contáctanos en privacidad@vetoralia.com.
           </Typography>
         </Box>
       </Container>
