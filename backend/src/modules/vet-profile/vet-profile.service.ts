@@ -6,6 +6,53 @@ import { User } from '../users/user.entity';
 
 @Injectable()
 export class VetProfileService {
+  // --- PUBLIC METHODS ---
+  async publicList(search: string = '', page: number = 1, limit: number = 10) {
+    const qb = this.vetProfileRepo.createQueryBuilder('profile')
+      .leftJoinAndSelect('profile.user', 'user')
+      .where('profile.approved = :approved', { approved: true });
+    if (search) {
+      qb.andWhere(
+        '(LOWER(user.name) LIKE :search OR LOWER(profile.specialty) LIKE :search OR LOWER(profile.location) LIKE :search)',
+        { search: `%${search.toLowerCase()}%` }
+      );
+    }
+    qb.skip((page - 1) * limit).take(limit);
+    const [profiles, total] = await qb.getManyAndCount();
+    // Only return public-facing fields
+    return {
+      total,
+      page,
+      limit,
+      results: profiles.map((profile) => ({
+        id: profile.id,
+        name: profile.user.name,
+        specialty: profile.specialty,
+        location: profile.location,
+        language: profile.user.language,
+        pricingTier: profile.pricingTier,
+        schedule: profile.schedule,
+      })),
+    };
+  }
+
+  async publicProfileById(id: string) {
+    const profile = await this.vetProfileRepo.createQueryBuilder('profile')
+      .leftJoinAndSelect('profile.user', 'user')
+      .where('profile.id = :id', { id })
+      .andWhere('profile.approved = :approved', { approved: true })
+      .getOne();
+    if (!profile) return null;
+    return {
+      id: profile.id,
+      name: profile.user.name,
+      specialty: profile.specialty,
+      location: profile.location,
+      language: profile.user.language,
+      pricingTier: profile.pricingTier,
+      schedule: profile.schedule,
+    };
+  }
   constructor(
     @InjectRepository(VetProfile)
     private readonly vetProfileRepo: Repository<VetProfile>,
