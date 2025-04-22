@@ -37,6 +37,10 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
     map.on('click', (e: L.LeafletMouseEvent) => {
       onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
     });
+    // Force Leaflet to recalculate size after mount
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 200);
     return () => { map.remove(); };
   }, []);
 
@@ -49,7 +53,7 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
     }
   }, [position]);
 
-  return <div ref={mapRef} style={{ width: "100%", height: 280 }} />;
+  return <div ref={mapRef} style={{ width: "100%", height: 280, border: '2px dashed red', background: '#ffeaea' }} />;
 }
 
 
