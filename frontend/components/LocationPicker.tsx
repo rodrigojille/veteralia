@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
+import LocationSearch from "./LocationSearch";
 
 const Map = dynamic(() => import("./MapLeaflet"), { ssr: false });
 
@@ -25,6 +26,10 @@ export default function LocationPicker({ value, onChange }: LocationPickerProps)
 
   return (
     <Box mb={2}>
+      <LocationSearch setLatLng={(latlng) => {
+        setPosition(latlng);
+        onChange(latlng);
+      }} />
       <Typography variant="subtitle2" mb={1}>
         Selecciona tu ubicación en el mapa
       </Typography>
