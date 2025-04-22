@@ -25,6 +25,11 @@ export default function VetProfile() {
 
   return (
     <Box maxWidth={600} mx="auto" mt={6}>
+      <Box display="flex" justifyContent="center" mb={2}>
+        <a href="/">
+          <img src="/logo.png" alt="Veteralia" style={{ height: 48, cursor: 'pointer' }} />
+        </a>
+      </Box>
       <Paper sx={{ p: 4, borderRadius: 4, boxShadow: 3 }}>
         <Typography variant="h4" color="primary" gutterBottom>
           {profile.name}

@@ -10,6 +10,19 @@ interface MapLeafletProps {
 export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
+
+  // Fix for default icon path issues in Next.js/Leaflet
+  useEffect(() => {
+    // @ts-ignore
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    });
+  }, []);
+
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -19,6 +32,8 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map);
+    // Add marker
+    markerRef.current = L.marker([position.lat, position.lng]).addTo(map);
     map.on('click', (e: L.LeafletMouseEvent) => {
       onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
     });
@@ -28,6 +43,9 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
   useEffect(() => {
     if (mapInstance.current) {
       mapInstance.current.setView([position.lat, position.lng]);
+    }
+    if (markerRef.current) {
+      markerRef.current.setLatLng([position.lat, position.lng]);
     }
   }, [position]);
 
