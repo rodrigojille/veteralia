@@ -23,14 +23,16 @@ export default function Terminos() {
             Bienvenido a Vetoralia. Al utilizar nuestra plataforma, aceptas los siguientes términos y condiciones. Por favor, lee cuidadosamente este documento antes de utilizar nuestros servicios.
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            1. **Aceptación de los Términos:** Al acceder y utilizar Vetoralia, aceptas estos términos y condiciones en su totalidad.
-2. **Uso de la Plataforma:** Solo puedes usar Vetoralia para fines legales relacionados con la búsqueda y gestión de servicios veterinarios.
-3. **Registro de Usuario:** Debes proporcionar información verídica y mantener la confidencialidad de tu cuenta.
-4. **Privacidad:** Nos comprometemos a proteger tu información personal. Consulta nuestra Política de Privacidad para más detalles.
-5. **Responsabilidad:** Vetoralia no se hace responsable por acuerdos o servicios realizados entre usuarios y veterinarios.
-6. **Modificaciones:** Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos sobre cambios importantes.
+            1. **Aceptación de los Términos:** Al acceder y utilizar Vetoralia, aceptas estos términos y condiciones conforme a la Ley Federal de Protección al Consumidor (LFPC).
+2. **Uso de la Plataforma:** El usuario se compromete a utilizar Vetoralia únicamente para fines legales relacionados con la búsqueda y gestión de servicios veterinarios. Queda prohibido el uso indebido o fraudulento.
+3. **Registro y Obligaciones del Usuario:** El usuario debe proporcionar información verídica y mantener la confidencialidad de su cuenta. Es responsable de todas las actividades realizadas desde su cuenta.
+4. **Privacidad y Datos Personales:** Vetoralia protege tus datos conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP). Consulta la Política de Privacidad para más información sobre el tratamiento de tus datos y el ejercicio de tus derechos ARCO.
+5. **Responsabilidad:** Vetoralia funge como intermediario entre usuarios y veterinarios, por lo que no es responsable de la calidad, cumplimiento o ejecución de los servicios pactados entre ambas partes.
+6. **Modificaciones:** Vetoralia podrá modificar estos términos y condiciones en cualquier momento. Los cambios serán notificados a través de la plataforma.
+7. **Jurisdicción y Ley Aplicable:** Para la interpretación y cumplimiento de estos términos, las partes se someten a las leyes y tribunales competentes de la Ciudad de México, renunciando a cualquier otro fuero que pudiera corresponderles.
+8. **Resolución de Controversias:** Cualquier controversia derivada del uso de la plataforma será resuelta de conformidad con la legislación mexicana vigente.
 
-Para cualquier duda, contáctanos en soporte@vetoralia.com.
+Para ejercer tus derechos o resolver dudas, contáctanos en soporte@vetoralia.com.
           </Typography>
         </Box>
       </Container>
