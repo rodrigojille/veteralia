@@ -297,11 +297,11 @@ function BookAppointment({ token }: { token: string }) {
                 onChange={handleChange}
                 fullWidth
                 required
-                SelectProps={{ native: true }}
+                InputLabelProps={{ shrink: true }}
               >
-                <option value="">Select Pet</option>
+                <MenuItem value="">Select Pet</MenuItem>
                 {pets.map((pet: any) => (
-                  <option key={pet.id} value={pet.id}>{pet.name} ({pet.species})</option>
+                  <MenuItem key={pet.id} value={pet.id}>{pet.name} ({pet.species})</MenuItem>
                 ))}
               </TextField>
             </Grid>
@@ -345,14 +345,12 @@ function BookAppointment({ token }: { token: string }) {
                 inputValue={vetSearch}
                 onInputChange={(_, value, reason) => {
                   setVetSearch(value);
-                  if (reason === 'input') setForm(f => ({ ...f, vetId: '' }));
+                  if (reason === 'clear') setForm(f => ({ ...f, vetId: '' }));
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Search Veterinarian" required fullWidth />
+                  <TextField {...params} label="Veterinarian" required fullWidth />
                 )}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
-                freeSolo
-                open={!!vetSearch}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -360,7 +358,7 @@ function BookAppointment({ token }: { token: string }) {
                 label="Date & Time"
                 name="datetime"
                 type="datetime-local"
-                value={form.datetime}
+{{ ... }}
                 onChange={handleChange}
                 fullWidth
                 required

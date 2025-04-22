@@ -98,9 +98,17 @@ export default function AdminDashboard() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" fontWeight={700} mb={2} color="#1d3557">
-        Veteralia Admin Dashboard
-      </Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Typography variant="h4" fontWeight={700} color="#1d3557">
+          Veteralia Admin Dashboard
+        </Typography>
+        <Button variant="outlined" color="secondary" onClick={() => {
+          localStorage.removeItem('admin_token');
+          setToken("");
+        }} title="Cerrar sesión" sx={{ ml: 2 }}>
+          Log out
+        </Button>
+      </Box>
       <AppBar position="static" color="default" sx={{ borderRadius: 2, boxShadow: 1, mb: 3 }}>
         <Tabs value={tab} onChange={(_, v) => setTab(v)} indicatorColor="primary" textColor="primary" variant="fullWidth">
           <Tab label="Overview" />
