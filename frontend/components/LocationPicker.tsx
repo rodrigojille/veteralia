@@ -40,7 +40,7 @@ export default function LocationPicker({ value, onChange, address, setAddress }:
   };
 
   return (
-    <Box mb={2}>
+    <Box mb={2} sx={{ minHeight: 320, background: '#e0f7fa' }}>
       <LocationSearch setLatLng={async (latlng) => {
         setPosition(latlng);
         onChange(latlng);
