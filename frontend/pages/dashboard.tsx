@@ -358,7 +358,6 @@ function BookAppointment({ token }: { token: string }) {
                 label="Date & Time"
                 name="datetime"
                 type="datetime-local"
-{{ ... }}
                 onChange={handleChange}
                 fullWidth
                 required
