@@ -28,6 +28,15 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
 
   useEffect(() => {
     console.log('[MapLeaflet] useEffect running');
+    // Check for Leaflet CSS
+    const leafletCssFound = Array.from(document.styleSheets).some(sheet =>
+      sheet.href && sheet.href.includes('leaflet')
+    );
+    if (!leafletCssFound) {
+      setError('Leaflet CSS is missing! Map cannot render.');
+      console.error('[MapLeaflet] Leaflet CSS is missing!');
+      return;
+    }
     let retries = 0;
     let retryTimeout: NodeJS.Timeout | null = null;
     const tryInit = () => {
