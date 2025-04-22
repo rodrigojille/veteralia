@@ -124,6 +124,10 @@ export default function Home() {
               width: { xs: '100%', sm: 'auto' },
               fontSize: { xs: '1rem', sm: '1.125rem' },
             }}
+            onClick={() => {
+              const searchSection = document.getElementById('buscar-vet');
+              if (searchSection) searchSection.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             COMIENZA AHORA
           </Button>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from 'next/link';
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
@@ -110,7 +111,9 @@ export default function Signup() {
       <Container maxWidth="sm" sx={{ mt: 8, mb: 6 }}>
         <Paper sx={{ p: 4, borderRadius: 4, boxShadow: 3 }}>
           <Box textAlign="center" mb={2}>
-            <img src="/logo.png" alt="Veteralia Logo" style={{ width: 80, marginBottom: 12 }} />
+            <Link href="/" passHref>
+  <img src="/logo.png" alt="Veteralia Logo" style={{ width: 80, marginBottom: 12, cursor: 'pointer' }} />
+</Link>
             <Typography variant="h4" component="h1" color="primary" gutterBottom>
               Crea tu cuenta
             </Typography>
