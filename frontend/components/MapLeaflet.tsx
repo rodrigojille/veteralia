@@ -1,4 +1,4 @@
-import "leaflet/dist/leaflet.css";
+
 import React, { useEffect, useRef } from "react";
 import L from "leaflet";
 
@@ -31,7 +31,7 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
     }
   }, [position]);
 
-  return <div ref={mapRef} style={{ width: "100%", height: 280, border: "2px solid red" }} />;
+  return <div ref={mapRef} style={{ width: "100%", height: 280 }} />;
 }
 
 
