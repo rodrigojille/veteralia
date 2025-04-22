@@ -188,19 +188,16 @@ export default function Signup() {
                   language={form.language}
                   onConfirm={(selected) => setForm((f) => ({ ...f, specialty: selected }))}
                 />
-                <LocationPicker
-                  value={form.location}
-                  onChange={async (loc) => {
-                    setForm((f) => ({ ...f, location: loc }));
-                    setAddressLoading(true);
-                    setAddress("");
-                    // Use Nominatim OpenStreetMap reverse geocoding
-                    try {
-                      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${loc.lat}&lon=${loc.lng}&format=json`);
-                      const data = await res.json();
-                      setAddress(data.display_name || "");
-                    } catch {
-                      setAddress("");
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle1" sx={{ mb: 1 }}>Ubicación</Typography>
+                  <LocationPicker
+                    value={form.location}
+                    onChange={loc => setForm(f => ({ ...f, location: loc }))}
+                    address={address}
+                    setAddress={setAddress}
+                    loading={addressLoading}
+                    setLoading={setAddressLoading}
+                  />
                     }
                     setAddressLoading(false);
                   }}
