@@ -7,13 +7,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: [
-      'https://vetoralia.com', // Custom production domain
-      'https://www.vetoralia.com', // www subdomain (if used)
-      'https://veteralia.netlify.app', // Netlify default domain
-      'https://www.veteralia.netlify.app', // Netlify www subdomain
-      'https://veteralia-beta-sgjnj.netlify.app', // Netlify deploy domain
-      'https://veteralia-beta.windsurf.build', // Windsurf preview domain
-      'http://localhost:3000', // Local development
+      'https://vetoralia.com',
+      'https://www.vetoralia.com',
+      'https://veteralia.netlify.app',
+      'https://www.veteralia.netlify.app',
+      'https://veteralia-beta-sgjnj.netlify.app',
+      'https://veteralia-beta.windsurf.build',
+      'http://localhost:3000',
     ],
     credentials: true,
   });
