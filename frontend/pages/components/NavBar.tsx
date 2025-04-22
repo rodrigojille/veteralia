@@ -19,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
 const navLinks = [
-  { label: 'Buscar Veterinario', href: '/' },
+  { label: 'Buscar Veterinario', href: '#buscar-vet' },
   { label: 'Registrarse', href: '/signup' },
   { label: 'Iniciar Sesión', href: '/login' },
 ];
@@ -43,6 +43,8 @@ export default function NavBar() {
       src="/logo.png"
       alt="Veteralia Logo"
       sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
+      onClick={() => { window.location.href = '/'; }}
+      style={{ cursor: 'pointer' }}
     />
     <Typography
       variant="h6"
