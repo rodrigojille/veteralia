@@ -1,9 +1,10 @@
 [build]
-  command = "npm run build --workspace=frontend"
+  base = "frontend"
+  command = "npm run build"
   publish = "frontend/.next"
 
 [build.environment]
   NODE_VERSION = "18"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+[context.production.environment]
+  NEXT_PUBLIC_API_URL = "https://veteralia-backend.herokuapp.com"
