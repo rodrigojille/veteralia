@@ -6,7 +6,7 @@ export default function LandingFooter() {
     <Box sx={{ bgcolor: 'grey.200', py: 4, mt: 8 }} component="footer">
       <Container maxWidth="lg">
         <Typography variant="body2" color="text.secondary" align="center">
-          © {new Date().getFullYear()} Veteralia. Todos los derechos reservados. &nbsp;|
+          © {new Date().getFullYear()} Vetoralia. Todos los derechos reservados. &nbsp;|
           &nbsp;
           <Link href="/" color="inherit" underline="hover">Inicio</Link>
           &nbsp;|&nbsp;

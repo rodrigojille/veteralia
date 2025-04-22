@@ -46,7 +46,7 @@ export default function UserLogin() {
       <Paper sx={{ p: 4, borderRadius: 4, boxShadow: 3 }}>
         <Box textAlign="center" mb={2}>
           <Link href="/" passHref>
-  <img src="/logo.png" alt="Veteralia Logo" style={{ width: 80, marginBottom: 12, cursor: 'pointer' }} />
+  <img src="/logo.png" alt="Vetoralia Logo" style={{ width: 80, marginBottom: 12, cursor: 'pointer' }} />
 </Link>
           <Typography variant="h4" component="h1" color="primary" gutterBottom>
             Iniciar sesión

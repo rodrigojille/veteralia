@@ -84,7 +84,7 @@ export default function VetDashboard() {
   return (
     <>
       <Head>
-        <title>Vet Dashboard | Veteralia</title>
+        <title>Vet Dashboard | Vetoralia</title>
       </Head>
       <Container maxWidth="lg" sx={{ py: { xs: 2, sm: 4 } }}>
         <Typography variant="h4" fontWeight={700} mb={2} color="#1d3557" sx={{ fontSize: { xs: '1.6rem', sm: '2.2rem' } }}>
@@ -110,7 +110,7 @@ export default function VetDashboard() {
         {tab === 0 && (
           <Paper sx={{ p: 3, borderRadius: 3 }}>
             <Box textAlign="center" mb={2}>
-              <img src="/logo.png" alt="Veteralia Logo" style={{ width: 80, marginBottom: 12 }} />
+              <img src="/logo.png" alt="Vetoralia Logo" style={{ width: 80, marginBottom: 12 }} />
             </Box>
             <Typography variant="h6">Profile</Typography>
             {userProfile && (
