@@ -7,4 +7,4 @@
   NODE_VERSION = "18"
 
 [context.production.environment]
-  NEXT_PUBLIC_API_URL = "https://veteralia-backend.herokuapp.com"
+  NEXT_PUBLIC_API_URL = "https://veteralia-backend-ae18cb4ced45.herokuapp.com"
