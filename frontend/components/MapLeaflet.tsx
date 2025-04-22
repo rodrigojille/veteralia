@@ -28,31 +28,42 @@ export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
 
   useEffect(() => {
     console.log('[MapLeaflet] useEffect running');
-    try {
+    let retries = 0;
+    let retryTimeout: NodeJS.Timeout | null = null;
+    const tryInit = () => {
       if (!mapRef.current) {
-        setError('Map ref is not attached');
+        if (retries < 20) {
+          retries++;
+          retryTimeout = setTimeout(tryInit, 100);
+        } else {
+          setError('Map ref is not attached after multiple attempts');
+          console.error('[MapLeaflet] Map ref is not attached after multiple attempts');
+        }
         return;
       }
-      if (mapInstance.current) return;
-      const map = L.map(mapRef.current).setView([position.lat, position.lng], 12);
-      mapInstance.current = map;
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; OpenStreetMap contributors',
-      }).addTo(map);
-      // Add marker
-      markerRef.current = L.marker([position.lat, position.lng]).addTo(map);
-      map.on('click', (e: L.LeafletMouseEvent) => {
-        onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
-      });
-      // Force Leaflet to recalculate size after mount
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 200);
-      return () => { map.remove(); };
-    } catch (err) {
-      setError('Map initialization failed: ' + (err instanceof Error ? err.message : String(err)));
-      console.error('[MapLeaflet] Map initialization failed:', err);
-    }
+      try {
+        if (mapInstance.current) return;
+        const map = L.map(mapRef.current).setView([position.lat, position.lng], 12);
+        mapInstance.current = map;
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: '&copy; OpenStreetMap contributors',
+        }).addTo(map);
+        // Add marker
+        markerRef.current = L.marker([position.lat, position.lng]).addTo(map);
+        map.on('click', (e: L.LeafletMouseEvent) => {
+          onMapClick({ lat: e.latlng.lat, lng: e.latlng.lng });
+        });
+        // Force Leaflet to recalculate size after mount
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 200);
+      } catch (err) {
+        setError('Map initialization failed: ' + (err instanceof Error ? err.message : String(err)));
+        console.error('[MapLeaflet] Map initialization failed:', err);
+      }
+    };
+    tryInit();
+    return () => { if (retryTimeout) clearTimeout(retryTimeout); if (mapInstance.current) mapInstance.current.remove(); };
   }, []);
 
   useEffect(() => {
