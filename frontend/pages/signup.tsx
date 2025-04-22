@@ -19,13 +19,13 @@ import {
   Stack,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
-import axios from "axios";
+import { apiFetch } from '../utils/api';
 import { VET_SPECIALTIES_EN } from "../components/VetSpecialties_en";
 import { VET_SPECIALTIES_ES } from "../components/VetSpecialties_es";
 import LocationPicker from "../components/LocationPicker";
 import SpecialtySelector from "../components/SpecialtySelector";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
 
 export default function Signup() {
   const [role, setRole] = useState("pet_owner");
@@ -86,7 +86,10 @@ export default function Signup() {
         delete payload.location;
         delete payload.pricingTier;
       }
-      await axios.post(`${API_BASE}/auth/signup`, payload);
+      await apiFetch('/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
       setSuccess("¡Registro exitoso! Ahora puedes iniciar sesión.");
       setTimeout(() => router.push("/login"), 1200);
     } catch (err: any) {

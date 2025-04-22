@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Box, Button, Container, Paper, Typography, TextField } from "@mui/material";
-import axios from "axios";
+import { apiFetch } from '../utils/api';
 // Minimal JWT payload decoder (no dependency)
 function decodeJwtPayload(token: string) {
   const payload = token.split('.')[1];
   return JSON.parse(atob(payload));
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
 
 export default function UserLogin() {
   const [email, setEmail] = useState("");
@@ -20,9 +20,12 @@ export default function UserLogin() {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post(`${API_BASE}/auth/login`, { email, password });
-      console.log("Login response:", res.data); // Debug log
-      const token = res.data.access_token;
+      const res = await apiFetch('/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      console.log("Login response:", res); // Debug log
+      const token = res.access_token;
       localStorage.setItem("user_token", token);
       const decoded: any = decodeJwtPayload(token);
       if (decoded.role === "veterinarian") {
