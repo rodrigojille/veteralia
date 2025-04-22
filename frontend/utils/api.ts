@@ -1,10 +1,10 @@
 // Centralized API utility for scalable backend communication
 // Uses the environment variable REACT_APP_API_URL
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 if (!API_BASE_URL) {
-  throw new Error('REACT_APP_API_URL is not defined! Please set it in your environment variables.');
+  throw new Error('NEXT_PUBLIC_API_URL is not defined! Please set it in your environment variables.');
 }
 
 export async function apiFetch<T = any>(endpoint: string, options?: RequestInit): Promise<T> {
