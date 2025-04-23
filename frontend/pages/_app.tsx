@@ -1,4 +1,4 @@
-import 'leaflet/dist/leaflet.css';
+import '../styles/globals.css';
 import * as React from 'react';
 import { AppProps } from 'next/app';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
