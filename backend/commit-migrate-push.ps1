@@ -1,5 +1,8 @@
 # PowerShell script to automate migration, commit, and push for Veteralia backend
 
+# Set environment variable for database connection
+$env:DATABASE_URL="postgres://postgres:140290@localhost:5432/veteralia"
+
 # 1. Remove and rebuild dist
 Write-Output 'Cleaning build output...'
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
