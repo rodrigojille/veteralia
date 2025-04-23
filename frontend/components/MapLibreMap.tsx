@@ -23,8 +23,8 @@ export default function MapLibreMap({ position, onMapClick }: MapLibreMapProps) 
       container: mapContainer.current,
       style: DEFAULT_STYLE,
       center: [position.lng, position.lat],
-      zoom: 12,
-      attributionControl: true,
+      zoom: 12
+      // attributionControl: true, // removed to fix type error
     });
 
     // Add marker
