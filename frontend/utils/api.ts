@@ -31,3 +31,46 @@ export async function apiFetch<T = any>(endpoint: string, options?: RequestInit)
 
 // Example usage (remove before production):
 // apiFetch('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) })
+
+export async function getAllPets() {
+  return apiFetch('/pets');
+}
+
+export async function getMedicalHistory(petId: string, token: string) {
+  return apiFetch(`/pets/${petId}/medical-history`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function addMedicalHistory(petId: string, event: any, token: string) {
+  return apiFetch(`/pets/${petId}/medical-history`, {
+    method: 'POST',
+    body: JSON.stringify(event),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function updateMedicalHistory(eventId: number, event: any, token: string) {
+  return apiFetch(`/medical-history/${eventId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(event),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function deleteMedicalHistory(eventId: number, token: string) {
+  return apiFetch(`/medical-history/${eventId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

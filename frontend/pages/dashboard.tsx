@@ -6,6 +6,8 @@ import ProfileForm from "../components/ProfileForm";
 import axios from "axios";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import MedicalHistoryTab from '../components/MedicalHistoryTab';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
@@ -18,6 +20,8 @@ function getToken() {
 
 // --- PetList Component ---
 function PetList({ token }: { token: string }) {
+  const [openHistoryPetId, setOpenHistoryPetId] = useState<string | null>(null);
+  const [openHistoryPetName, setOpenHistoryPetName] = useState<string>('');
   const [pets, setPets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -117,6 +121,9 @@ function PetList({ token }: { token: string }) {
                 <Box>
                   <IconButton onClick={() => handleOpenEdit(pet)}><EditIcon /></IconButton>
                   <IconButton onClick={() => handleDelete(pet)}><DeleteIcon /></IconButton>
+                  <IconButton onClick={() => { setOpenHistoryPetId(pet.id.toString()); setOpenHistoryPetName(pet.name); }} title="View Medical History">
+                    <VisibilityIcon />
+                  </IconButton>
                 </Box>
               </Paper>
             </Grid>
@@ -136,6 +143,12 @@ function PetList({ token }: { token: string }) {
           <Button onClick={handleClose}>Cancel</Button>
           <Button variant="contained" onClick={handleSave} disabled={saving}>{saving ? <CircularProgress size={20} /> : 'Save'}</Button>
         </DialogActions>
+      </Dialog>
+      <Dialog open={!!openHistoryPetId} onClose={() => { setOpenHistoryPetId(null); setOpenHistoryPetName(''); }} maxWidth="md" fullWidth>
+        <DialogTitle>Medical History for {openHistoryPetName}</DialogTitle>
+        <DialogContent>
+          {openHistoryPetId && <MedicalHistoryTab petId={openHistoryPetId} token={token} />}
+        </DialogContent>
       </Dialog>
     </Box>
   );

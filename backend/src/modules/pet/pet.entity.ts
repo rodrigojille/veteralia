@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../users/user.entity';
+import { MedicalHistory } from '../medical-history/medical-history.entity';
 
 @Entity()
 export class Pet {
@@ -23,4 +24,8 @@ export class Pet {
 
   @ManyToOne(() => User, user => user.id, { onDelete: 'CASCADE' })
   owner!: User;
+
+  // Medical history relation
+  @OneToMany(() => MedicalHistory, (mh: MedicalHistory) => mh.pet, { cascade: true })
+  medicalHistory!: MedicalHistory[];
 }
