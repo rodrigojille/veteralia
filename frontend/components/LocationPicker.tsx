@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import LocationSearch from "./LocationSearch";
 import { reverseGeocode } from "../utils/geocode";
 
-const Map = dynamic(() => import("./MapLeaflet"), { ssr: false });
+const MapLibreMap = dynamic(() => import("./MapLibreMap"), { ssr: false });
 
 interface LocationPickerProps {
   value: { lat: number; lng: number } | null;
@@ -58,7 +58,7 @@ export default function LocationPicker({ value, onChange, address, setAddress }:
         Selecciona tu ubicación en el mapa
       </Typography>
       <Box sx={{ height: 280, borderRadius: 2, overflow: "hidden", border: "1px solid #ddd" }}>
-        <Map position={position} onMapClick={handleMapClick} />
+        <MapLibreMap position={position} onMapClick={handleMapClick} />
       </Box>
       {localAddress && (
         <Typography variant="body2" color="text.secondary" mt={1}>
