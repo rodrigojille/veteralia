@@ -8,3 +8,8 @@
 
 [context.production.environment]
   NEXT_PUBLIC_API_URL = "https://veteralia-backend-ae18cb4ced45.herokuapp.com"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "script-src 'self' 'unsafe-eval' https://unpkg.com https://*.tile.openstreetmap.org; object-src 'none'; base-uri 'self';"
