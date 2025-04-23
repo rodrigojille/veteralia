@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/maplibre-gl.css';
 import * as React from 'react';
 import { AppProps } from 'next/app';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
