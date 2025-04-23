@@ -11,4 +11,5 @@ export default new DataSource({
   entities: [User, VetProfile, Pet, MedicalHistory, Appointment],
   migrations: [process.env.NODE_ENV === 'production' ? 'dist/migrations/*.js' : 'src/migrations/*.ts'],
   synchronize: false,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
