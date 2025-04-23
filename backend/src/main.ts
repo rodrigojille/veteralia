@@ -2,6 +2,22 @@ import 'reflect-metadata';
 require('dotenv').config();
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { Module } from '@nestjs/common';
+
+// Diagnostic: Log all controllers and providers in AppModule
+const appModuleMeta = Reflect.getMetadata('annotations', AppModule)?.[0];
+if (appModuleMeta) {
+  if (appModuleMeta.controllers) {
+    console.log('AppModule controllers:', appModuleMeta.controllers);
+  }
+  if (appModuleMeta.providers) {
+    console.log('AppModule providers:', appModuleMeta.providers);
+  }
+  if (appModuleMeta.imports) {
+    console.log('AppModule imports:', appModuleMeta.imports);
+  }
+}
+
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {

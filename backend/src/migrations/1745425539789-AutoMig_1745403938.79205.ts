@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class AutoMig1745403938.792051745425539789 implements MigrationInterface {
-    name = 'AutoMig1745403938.792051745425539789'
+export class AutoMig1745403938792051745425539789 implements MigrationInterface {
+    name = 'AutoMig1745403938792051745425539789'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "vet_availability" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "vetId" uuid NOT NULL, "dayOfWeek" integer, "date" date, "startTime" character varying(5) NOT NULL, "endTime" character varying(5) NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_5ba322395ca03ead268db01bee0" PRIMARY KEY ("id"))`);
