@@ -105,15 +105,19 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
             </TableRow>
           </TableHead>
           <TableBody>
-            {history.map(event => (
-              <TableRow key={event.id}>
-                <TableCell>{event.date}</TableCell>
+             {history.map((event, idx) => (
+              <TableRow key={event.id} sx={{ bgcolor: idx % 2 === 0 ? '#fafbfc' : '#f0f2f5', '&:hover': { bgcolor: '#e3e8ef' } }}>
+                <TableCell>{new Date(event.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}</TableCell>
                 <TableCell>{event.condition}</TableCell>
                 <TableCell>{event.vetClinic}</TableCell>
                 <TableCell>{event.notes}</TableCell>
                 <TableCell align="right">
-                  <IconButton onClick={() => handleOpen(event)}><Edit /></IconButton>
-                  <IconButton onClick={() => handleDelete(event.id)}><Delete /></IconButton>
+                  <IconButton onClick={() => handleOpen(event)} color="primary" title="Editar" aria-label="Editar">
+                    <Edit />
+                  </IconButton>
+                  <IconButton onClick={() => handleDelete(event.id)} color="error" title="Eliminar" aria-label="Eliminar">
+                    <Delete />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
