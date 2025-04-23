@@ -319,14 +319,6 @@ function BookAppointment({ token }: { token: string }) {
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                label="Search Veterinarian"
-                value={vetSearch}
-                onChange={e => setVetSearch(e.target.value)}
-                fullWidth
-                placeholder="Type name, email, or specialty..."
-                sx={{ mb: 1 }}
-              />
               <Box sx={{ mb: 1 }}>
                 <Typography variant="caption" sx={{ ml: 1 }}>Language</Typography>
                 <Select
