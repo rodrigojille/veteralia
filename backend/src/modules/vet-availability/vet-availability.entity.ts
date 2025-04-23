@@ -4,29 +4,29 @@ import { User } from '../users/user.entity';
 @Entity()
 export class VetAvailability {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @ManyToOne(() => User, user => user.id, { onDelete: 'CASCADE' })
-  vet: User;
+  vet!: User;
 
   @Column({ type: 'uuid' })
-  vetId: string;
+  vetId!: string;
 
   @Column({ type: 'int', nullable: true })
-  dayOfWeek: number | null;
+  dayOfWeek!: number | null;
 
   @Column({ type: 'date', nullable: true })
-  date: string | null;
+  date!: string | null;
 
   @Column({ type: 'varchar', length: 5 })
-  startTime: string;
+  startTime!: string;
 
   @Column({ type: 'varchar', length: 5 })
-  endTime: string;
+  endTime!: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }
