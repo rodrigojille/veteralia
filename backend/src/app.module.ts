@@ -8,6 +8,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
 import { VetProfileModule } from './modules/vet-profile/vet-profile.module';
 import { User } from './modules/users/user.entity';
 import { VetProfile } from './modules/vet-profile/vet-profile.entity';
+import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 import { AppController } from './app.controller';
 
 @Module({
@@ -30,6 +31,7 @@ import { AppController } from './app.controller';
     PetModule,
     AppointmentModule,
     VetProfileModule,
+    MedicalHistoryModule,
   ],
   controllers: [AppController],
 })

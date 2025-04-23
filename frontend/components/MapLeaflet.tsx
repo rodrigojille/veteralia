@@ -7,7 +7,7 @@ interface MapLeafletProps {
   onMapClick: (latlng: { lat: number; lng: number }) => void;
 }
 
-export default function MapLeaflet({ position, onMapClick }: MapLeafletProps) {
+
   const [error, setError] = React.useState<string | null>(null);
   console.log('[MapLeaflet] Rendered, position:', position);
   const mapRef = useRef<HTMLDivElement>(null);

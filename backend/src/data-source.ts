@@ -1,16 +1,14 @@
 import { DataSource } from 'typeorm';
-import { User } from './modules/users/user.entity'
+import { User } from './modules/users/user.entity';
 import { VetProfile } from './modules/vet-profile/vet-profile.entity';
-// import other entities as needed
+import { Pet } from './modules/pet/pet.entity';
+import { MedicalHistory } from './modules/medical-history/medical-history.entity';
+import { Appointment } from './modules/appointment/appointment.entity';
 
 export default new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || '5432', 10),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  entities: [User, VetProfile], // add all your entities here
-  migrations: ['migrations/*.ts'],
+  url: process.env.DATABASE_URL,
+  entities: [User, VetProfile, Pet, MedicalHistory, Appointment],
+  migrations: [process.env.NODE_ENV === 'production' ? 'dist/migrations/*.js' : 'src/migrations/*.ts'],
   synchronize: false,
 });

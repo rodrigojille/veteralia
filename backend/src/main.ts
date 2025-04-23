@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.set('trust proxy', 1);
   app.enableCors({
+    // Allow all dev ports for Next.js frontend
     origin: [
       'https://vetoralia.com',
       'https://www.vetoralia.com',
@@ -16,6 +17,9 @@ async function bootstrap() {
       'https://veteralia-beta-sgjnj.netlify.app',
       'https://veteralia-beta.windsurf.build',
       'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://localhost:3003',
     ],
     credentials: true,
   });
