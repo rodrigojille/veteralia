@@ -16,6 +16,7 @@ interface Pet {
 }
 
 export default function PetsDashboard() {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('user_token') || '' : '';
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -91,7 +92,7 @@ export default function PetsDashboard() {
       <Dialog open={!!openPetId} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>Historial Médico de {openPetName}</DialogTitle>
         <DialogContent>
-          {openPetId && <MedicalHistoryTab petId={openPetId.toString()} />}
+          {openPetId && <MedicalHistoryTab petId={openPetId.toString()} token={token} />}
         </DialogContent>
       </Dialog>
     </Box>
