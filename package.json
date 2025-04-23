@@ -11,11 +11,13 @@
     "dev:backend": "yarn workspace backend start:dev"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "@nestjs/cli": "^10.4.9"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "class-transformer": "^0.5.1",
-    "lottie-react": "^2.4.1"
+    "lottie-react": "^2.4.1",
+    "styled-jsx": "^5.1.1"
   }
 }

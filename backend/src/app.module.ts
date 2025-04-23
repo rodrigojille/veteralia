@@ -8,7 +8,12 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
 import { VetProfileModule } from './modules/vet-profile/vet-profile.module';
 import { User } from './modules/users/user.entity';
 import { VetProfile } from './modules/vet-profile/vet-profile.entity';
+import { VetAvailability } from './modules/vet-availability/vet-availability.entity';
+import { Pet } from './modules/pet/pet.entity';
+import { MedicalHistory } from './modules/medical-history/medical-history.entity';
+import { Appointment } from './modules/appointment/appointment.entity';
 import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
+import { VetAvailabilityModule } from './modules/vet-availability/vet-availability.module';
 import { AppController } from './app.controller';
 
 @Module({
@@ -21,9 +26,9 @@ import { AppController } from './app.controller';
       username: process.env.DATABASE_URL ? undefined : process.env.DB_USERNAME,
       password: process.env.DATABASE_URL ? undefined : process.env.DB_PASSWORD,
       database: process.env.DATABASE_URL ? undefined : process.env.DB_NAME,
-      entities: [User, VetProfile],
       synchronize: false,
-      autoLoadEntities: true,
+      autoLoadEntities: false,
+      entities: [User, VetProfile, VetAvailability, Pet, MedicalHistory, Appointment],
       ssl: process.env.DATABASE_URL && process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     AuthModule,
@@ -32,6 +37,7 @@ import { AppController } from './app.controller';
     AppointmentModule,
     VetProfileModule,
     MedicalHistoryModule,
+    VetAvailabilityModule,
   ],
   controllers: [AppController],
 })

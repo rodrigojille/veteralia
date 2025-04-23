@@ -6,7 +6,7 @@ export class VetAvailability {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, user => user.id, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, user => user.vetAvailabilities, { onDelete: 'CASCADE' })
   vet!: User;
 
   @Column({ type: 'uuid' })

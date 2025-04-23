@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
-import { OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm';
 import { VetProfile } from '../vet-profile/vet-profile.entity';
+import { VetAvailability } from '../vet-availability/vet-availability.entity';
 
 @Entity()
 export class User {
@@ -29,5 +28,9 @@ export class User {
   // Add relation to VetProfile
   @OneToOne(() => VetProfile, profile => profile.user)
   vetProfile?: VetProfile;
+
+  // Relation to VetAvailability (forwardRef to avoid circular dep)
+  @OneToMany(() => VetAvailability, va => va.vet)
+  vetAvailabilities?: VetAvailability[];
 }
 
