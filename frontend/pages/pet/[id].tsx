@@ -12,6 +12,7 @@ const VaccinationsTab = ({ petId }: { petId: string }) => (
 );
 
 export default function PetProfilePage() {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('user_token') || '' : '';
   const router = useRouter();
   const { id } = router.query;
   const petId = typeof id === 'string' ? id : '';
@@ -38,7 +39,7 @@ export default function PetProfilePage() {
             </Box>
           )}
           {tab === 1 && (
-            <MedicalHistoryTab petId={petId} />
+            <MedicalHistoryTab petId={petId} token={token} />
           )}
           {tab === 2 && (
             <Box>
