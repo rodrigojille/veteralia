@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField
+  Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Divider, Snackbar, Alert
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
 import {
@@ -61,17 +61,35 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
   };
+  // Validation state
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+  // Snackbar state
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({ open: false, message: '', severity: 'success' });
+
+  const validate = () => {
+    const errors: { [key: string]: string } = {};
+    if (!form.date) errors.date = 'La fecha es obligatoria';
+    if (!form.condition) errors.condition = 'La condición es obligatoria';
+    return errors;
+  };
+
   const handleSave = async () => {
+    const errors = validate();
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
     try {
       if (editing && editing.id) {
         await updateMedicalHistory(editing.id, form, token);
+        setSnackbar({ open: true, message: 'Evento actualizado', severity: 'success' });
       } else {
         await addMedicalHistory(petId, form, token);
+        setSnackbar({ open: true, message: 'Evento agregado', severity: 'success' });
       }
       handleClose();
       fetchHistory();
     } catch (err) {
-      setError('Error saving medical event');
+      setError('Error al guardar el evento médico');
+      setSnackbar({ open: true, message: 'Error al guardar el evento', severity: 'error' });
     }
   };
   const handleDelete = async (id?: number) => {
@@ -127,9 +145,11 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{editing ? 'Editar evento médico' : 'Añadir evento médico'}</DialogTitle>
-        <DialogContent sx={{ minWidth: 350 }}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" aria-labelledby="medical-history-modal-title">
+        <DialogTitle id="medical-history-modal-title">
+          {editing ? 'Editar evento médico' : 'Añadir evento médico'}
+        </DialogTitle>
+        <DialogContent sx={{ p: { xs: 1, sm: 3 } }}>
           <TextField
             label="Fecha"
             name="date"
@@ -139,6 +159,10 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
             fullWidth
             margin="normal"
             InputLabelProps={{ shrink: true }}
+            error={!!formErrors.date}
+            helperText={formErrors.date}
+            sx={{ mb: 2 }}
+            inputProps={{ 'aria-label': 'Fecha' }}
           />
           <TextField
             label="Condición/Diagnóstico"
@@ -147,7 +171,12 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
             onChange={handleChange}
             fullWidth
             margin="normal"
+            error={!!formErrors.condition}
+            helperText={formErrors.condition}
+            sx={{ mb: 2 }}
+            inputProps={{ 'aria-label': 'Condición o diagnóstico' }}
           />
+          <Divider sx={{ my: 2 }} />
           <TextField
             label="Veterinario/Clínica"
             name="vetClinic"
@@ -155,6 +184,8 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
             onChange={handleChange}
             fullWidth
             margin="normal"
+            sx={{ mb: 2 }}
+            inputProps={{ 'aria-label': 'Veterinario o clínica' }}
           />
           <TextField
             label="Notas"
@@ -165,13 +196,25 @@ export default function MedicalHistoryTab({ petId, token }: MedicalHistoryTabPro
             margin="normal"
             multiline
             rows={2}
+            sx={{ mb: 1 }}
+            inputProps={{ 'aria-label': 'Notas' }}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ px: { xs: 1, sm: 3 }, pb: { xs: 1, sm: 2 } }}>
           <Button onClick={handleClose}>Cancelar</Button>
           <Button onClick={handleSave} variant="contained">Guardar</Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
