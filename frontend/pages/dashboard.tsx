@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import NavBar from "./components/NavBar";
 import { Box, Container, Typography, Paper, Tabs, Tab, AppBar, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton, CircularProgress, Alert, Autocomplete, Popper, Select, MenuItem } from "@mui/material";
 import { fuzzyMatch } from "../utils/_fuzzyMatch";
 import ProfileForm from "../components/ProfileForm";
@@ -403,6 +404,16 @@ function BookAppointment({ token }: { token: string }) {
 }
 
 export default function UserDashboard() {
+  // Render NavBar at the top
+  return (
+    <>
+      <NavBar />
+      <UserDashboardContent />
+    </>
+  );
+}
+
+function UserDashboardContent() {
   const [tab, setTab] = useState(0);
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();

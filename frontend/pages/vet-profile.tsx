@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, Typography, Paper, CircularProgress, Alert, Button, Chip } from '@mui/material';
 import { apiFetch } from '../utils/api';
+import dynamic from 'next/dynamic';
+
+const BookAppointment = dynamic(() => import('../components/BookAppointment'), { ssr: false });
 
 export default function VetProfile() {
   const router = useRouter();
@@ -9,6 +12,8 @@ export default function VetProfile() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showBooking, setShowBooking] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -18,6 +23,12 @@ export default function VetProfile() {
       .catch(() => setError('No se encontró el perfil del veterinario.'))
       .finally(() => setLoading(false));
   }, [id]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setToken(localStorage.getItem('user_token'));
+    }
+  }, []);
 
   if (loading) return <Box display="flex" justifyContent="center" mt={8}><CircularProgress /></Box>;
   if (error) return <Alert severity="error" sx={{ mt: 6 }}>{error}</Alert>;
@@ -52,9 +63,23 @@ export default function VetProfile() {
             ))}
           </Box>
         )}
-        <Button variant="contained" color="primary" onClick={() => router.push('/login')}>
-          Agendar cita
-        </Button>
+        {!showBooking ? (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              if (!token) {
+                router.push('/login');
+              } else {
+                setShowBooking(true);
+              }
+            }}
+          >
+            Agendar cita
+          </Button>
+        ) : (
+          <BookAppointment token={token!} vetId={profile.id} hideVetSelect onBooked={() => setShowBooking(false)} />
+        )}
       </Paper>
     </Box>
   );

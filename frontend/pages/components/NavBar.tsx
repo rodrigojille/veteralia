@@ -18,18 +18,42 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
-const navLinks = [
-  { label: 'Buscar Veterinario', href: '#buscar-vet' },
-  { label: 'Registrarse', href: '/signup' },
-  { label: 'Iniciar Sesión', href: '/login' },
-];
+function getNavLinks(isLoggedIn: boolean) {
+  if (isLoggedIn) {
+    return [
+      { label: 'Dashboard', href: '/dashboard' },
+      { label: 'Logout', href: '/logout' },
+    ];
+  }
+  return [
+    { label: 'Buscar Veterinario', href: '#buscar-vet' },
+    { label: 'Registrarse', href: '/signup' },
+    { label: 'Iniciar Sesión', href: '/login' },
+  ];
+}
 
 export default function NavBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsLoggedIn(!!localStorage.getItem('user_token'));
+    }
+  }, []);
+
   const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
+
+  const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('user_token');
+      window.location.href = '/login';
+    }
+  };
+
+  const navLinks = getNavLinks(isLoggedIn);
 
   return (
     <AppBar position="static" color="inherit" elevation={0} sx={{ borderBottom: '1px solid #e0e0e0', bgcolor: '#fff' }}>
@@ -37,25 +61,25 @@ export default function NavBar() {
         <Toolbar disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box display="flex" alignItems="center" minWidth={0} sx={{ flexShrink: 1 }}>
             <Link href="/" passHref legacyBehavior>
-  <Box component="a" display="flex" alignItems="center" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-    <Box
-      component="img"
-      src="/logo.png"
-      alt="Vetoralia Logo"
-      sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
-      onClick={() => { window.location.href = '/'; }}
-      style={{ cursor: 'pointer' }}
-    />
-    <Typography
-      variant="h6"
-      color="#1d3557"
-      fontWeight={700}
-      sx={{ fontFamily: 'Inter, Arial, sans-serif', letterSpacing: 1, fontSize: { xs: '1.18rem', sm: '1.32rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 120, sm: 180 }, ml: 0 }}
-    >
-      Vetoralia
-    </Typography>
-  </Box>
-</Link>
+              <Box component="a" display="flex" alignItems="center" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                <Box
+                  component="img"
+                  src="/logo.png"
+                  alt="Vetoralia Logo"
+                  sx={{ width: { xs: 40, sm: 56 }, height: { xs: 40, sm: 56 }, mr: 1.5, borderRadius: 2, boxShadow: 1, bgcolor: '#fff', p: 0.3 }}
+                  onClick={() => { window.location.href = '/'; }}
+                  style={{ cursor: 'pointer' }}
+                />
+                <Typography
+                  variant="h6"
+                  color="#1d3557"
+                  fontWeight={700}
+                  sx={{ fontFamily: 'Inter, Arial, sans-serif', letterSpacing: 1, fontSize: { xs: '1.18rem', sm: '1.32rem' }, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: { xs: 120, sm: 180 }, ml: 0 }}
+                >
+                  Vetoralia
+                </Typography>
+              </Box>
+            </Link>
           </Box>
           {isMobile ? (
             <>
@@ -97,13 +121,19 @@ export default function NavBar() {
                 <List>
                   {navLinks.map(({ label, href }) => (
                     <ListItem key={href} disablePadding>
-                      <ListItemButton
-                        component={Link}
-                        href={href}
-                        onClick={handleDrawerToggle}
-                      >
-                        <ListItemText primary={label} />
-                      </ListItemButton>
+                      {label === 'Logout' ? (
+                        <ListItemButton onClick={() => { handleDrawerToggle(); handleLogout(); }}>
+                          <ListItemText primary={label} />
+                        </ListItemButton>
+                      ) : (
+                        <ListItemButton
+                          component={Link}
+                          href={href}
+                          onClick={handleDrawerToggle}
+                        >
+                          <ListItemText primary={label} />
+                        </ListItemButton>
+                      )}
                     </ListItem>
                   ))}
                 </List>
@@ -112,15 +142,26 @@ export default function NavBar() {
           ) : (
             <Box display="flex" gap={2}>
               {navLinks.map(({ label, href }) => (
-                <Button
-                  key={href}
-                  component={Link}
-                  href={href}
-                  color="primary"
-                  sx={{ fontFamily: 'Inter, Arial, sans-serif', fontWeight: 600, fontSize: { xs: '1rem', md: '1.05rem' } }}
-                >
-                  {label}
-                </Button>
+                label === 'Logout' ? (
+                  <Button
+                    key={href}
+                    color="primary"
+                    sx={{ fontFamily: 'Inter, Arial, sans-serif', fontWeight: 600, fontSize: { xs: '1rem', md: '1.05rem' } }}
+                    onClick={handleLogout}
+                  >
+                    {label}
+                  </Button>
+                ) : (
+                  <Button
+                    key={href}
+                    component={Link}
+                    href={href}
+                    color="primary"
+                    sx={{ fontFamily: 'Inter, Arial, sans-serif', fontWeight: 600, fontSize: { xs: '1rem', md: '1.05rem' } }}
+                  >
+                    {label}
+                  </Button>
+                )
               ))}
             </Box>
           )}
