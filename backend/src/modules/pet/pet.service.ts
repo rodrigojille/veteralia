@@ -11,6 +11,10 @@ export class PetService {
     private readonly petRepo: Repository<Pet>,
   ) {}
 
+  async countAll(): Promise<number> {
+    return this.petRepo.count();
+  }
+
   async findAllByOwner(ownerId: string) {
     return this.petRepo.find({ where: { owner: { id: ownerId } } });
   }

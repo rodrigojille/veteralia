@@ -5,6 +5,11 @@ import { useRouter } from "next/router";
 import { fetchVetProfile } from "./api/fetchVetProfile";
 import { fetchVetAppointments } from "./api/fetchVetAppointments";
 import { fetchVetUserProfile } from "./api/fetchVetUserProfile";
+// Dynamically import VetCalendarPage for the Calendar tab
+const VetCalendarPage = React.lazy(() => import("./vet-calendar"));
+// Import EditProfileForm, ApproveAppointments, BuyMembership if not already imported
+// (Assume these are defined in the same file or imported above)
+
 
 function decodeJwtPayload(token: string) {
   const payload = token.split('.')[1];
@@ -102,83 +107,94 @@ export default function VetDashboard() {
           >
             <Tab label="Profile" />
             <Tab label="Appointments" />
+            <Tab label="Calendar" /> 
             <Tab label="Edit Profile" />
             <Tab label="Approve Appointments" />
             <Tab label="Buy Membership" />
           </Tabs>
         </AppBar>
-        {tab === 0 && (
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
-            <Box textAlign="center" mb={2}>
-              <img src="/logo.png" alt="Vetoralia Logo" style={{ width: 80, marginBottom: 12 }} />
-            </Box>
-            <Typography variant="h6">Profile</Typography>
-            {userProfile && (
-              <>
-                <Typography><b>Name:</b> {userProfile?.name}</Typography>
-                <Typography><b>Email:</b> {userProfile?.email}</Typography>
-                <Typography><b>Phone:</b> {userProfile?.phone || '-'}</Typography>
-                <Typography><b>Role:</b> {userProfile?.role || '-'}</Typography>
-              </>
-            )}
-            {profile && (
-              <>
-                <Typography><b>Specialty:</b> {profile?.specialty || '-'}</Typography>
-                <Typography><b>Location:</b> {profile?.location || '-'}</Typography>
-                <Typography><b>Plan:</b> {profile?.pricingTier || '-'}</Typography>
-                <Typography><b>Approved:</b> {profile?.approved ? 'Yes' : 'No'}</Typography>
-              </>
-            )}
-            {vetProfileError && (
-              <Alert severity="warning" sx={{ mt: 2 }}>{vetProfileError}</Alert>
-            )}
-            <Box textAlign="right" mt={2}>
-              <Button variant="outlined" color="secondary" onClick={() => {
-                localStorage.removeItem("user_token");
-                router.replace("/login");
-              }}>Log out</Button>
-            </Box>
-          </Paper>
-        )}
-        {tab === 1 && (
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="h6">Upcoming Appointments</Typography>
-            {appointments.length === 0 ? (
-              <Typography color="text.secondary">No upcoming appointments.</Typography>
-            ) : (
-              <List>
-                {appointments.map((appt: any) => (
-                  <ListItem key={appt.id} divider>
-                    <ListItemText
-                      primary={`Patient: ${appt.pet?.name || '-'} (${appt.pet?.species || ''})`}
-                      secondary={`Date: ${appt.datetime ? new Date(appt.datetime).toLocaleString() : '-'} | Owner: ${appt.petOwner?.name || '-'}`}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            )}
-          </Paper>
-        )}
-        {tab === 2 && (
-          <Paper sx={{ p: { xs: 1.5, sm: 3 }, borderRadius: 3 }}>
-            <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>Edit Profile</Typography>
-            {/* Simple Edit Profile Form */}
-            <EditProfileForm profile={profile} token={localStorage.getItem("user_token") || ""} onUpdate={p => setProfile(p)} />
-          </Paper>
-        )}
-        {tab === 3 && (
-          <Paper sx={{ p: { xs: 1.5, sm: 3 }, borderRadius: 3 }}>
-            <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>Approve Appointments</Typography>
-            <Typography variant="h6" mb={2}>Approve Appointments</Typography>
-            <ApproveAppointments token={localStorage.getItem("user_token") || ""} />
-          </Paper>
-        )}
-        {tab === 4 && (
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="h6" mb={2}>Buy Membership</Typography>
-            <BuyMembership profile={profile} token={localStorage.getItem("user_token") || ""} onUpdate={p => setProfile(p)} />
-          </Paper>
-        )}
+
+        {/* Tab Content - ALL wrapped in fragment to fix JSX parent error */}
+        <>
+          {/* Profile Tab */}
+          {tab === 0 && (
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
+              <Typography variant="h6">Profile</Typography>
+              {userProfile && (
+                <>
+                  <Typography><b>Name:</b> {userProfile?.name}</Typography>
+                  <Typography><b>Email:</b> {userProfile?.email}</Typography>
+                  <Typography><b>Phone:</b> {userProfile?.phone || '-'}</Typography>
+                  <Typography><b>Role:</b> {userProfile?.role || '-'}</Typography>
+                </>
+              )}
+              {profile && (
+                <>
+                  <Typography><b>Specialty:</b> {profile?.specialty || '-'}</Typography>
+                  <Typography><b>Location:</b> {profile?.location || '-'}</Typography>
+                  <Typography><b>Plan:</b> {profile?.pricingTier || '-'}</Typography>
+                  <Typography><b>Approved:</b> {profile?.approved ? 'Yes' : 'No'}</Typography>
+                </>
+              )}
+              {vetProfileError && (
+                <Alert severity="warning" sx={{ mt: 2 }}>{vetProfileError}</Alert>
+              )}
+              <Box textAlign="right" mt={2}>
+                <Button variant="outlined" color="secondary" onClick={() => {
+                  localStorage.removeItem("user_token");
+                  router.replace("/login");
+                }}>Log out</Button>
+              </Box>
+            </Paper>
+          )}
+          {/* Appointments Tab */}
+          {tab === 1 && (
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
+              <Typography variant="h6">Upcoming Appointments</Typography>
+              {appointments.length === 0 ? (
+                <Typography color="text.secondary">No upcoming appointments.</Typography>
+              ) : (
+                <List>
+                  {appointments.map((appt: any) => (
+                    <ListItem key={appt.id} divider>
+                      <ListItemText
+                        primary={`Patient: ${appt.pet?.name || '-'} (${appt.pet?.species || ''})`}
+                        secondary={`Date: ${appt.datetime ? new Date(appt.datetime).toLocaleString() : '-'} | Owner: ${appt.petOwner?.name || '-'}`}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+            </Paper>
+          )}
+          {/* Calendar Tab */}
+          {tab === 2 && (
+            <React.Suspense fallback={<Box display="flex" justifyContent="center" alignItems="center" minHeight={400}><CircularProgress /></Box>}>
+              <VetCalendarPage />
+            </React.Suspense>
+          )}
+          {/* Edit Profile Tab */}
+          {tab === 3 && (
+            <Paper sx={{ p: { xs: 1.5, sm: 3 }, borderRadius: 3 }}>
+              <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>Edit Profile</Typography>
+              <EditProfileForm profile={profile} token={localStorage.getItem("user_token") || ""} onUpdate={p => setProfile(p)} />
+            </Paper>
+          )}
+          {/* Approve Appointments Tab */}
+          {tab === 4 && (
+            <Paper sx={{ p: { xs: 1.5, sm: 3 }, borderRadius: 3 }}>
+              <Typography variant="h6" sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }}>Approve Appointments</Typography>
+              <ApproveAppointments token={localStorage.getItem("user_token") || ""} />
+            </Paper>
+          )}
+          {/* Buy Membership Tab */}
+          {tab === 5 && (
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
+              <Typography variant="h6" mb={2}>Buy Membership</Typography>
+              <BuyMembership profile={profile} token={localStorage.getItem("user_token") || ""} onUpdate={p => setProfile(p)} />
+            </Paper>
+          )}
+        </>
       </Container>
     </>
   );
@@ -260,50 +276,94 @@ function EditProfileForm({ profile, token, onUpdate }: { profile: any, token: st
 }
 
 // --- Approve Appointments Component (UI only, replace with real API if available) ---
+import axios from 'axios';
+
 function ApproveAppointments({ token }: { token: string }) {
-  const [appointments, setAppointments] = React.useState<any[]>([
-    // Placeholder data
-    { id: 1, pet: { name: 'Firulais' }, owner: { name: 'Juan' }, datetime: new Date().toISOString(), status: 'pending' },
-    { id: 2, pet: { name: 'Michi' }, owner: { name: 'Ana' }, datetime: new Date().toISOString(), status: 'pending' },
-  ]);
+  const [appointments, setAppointments] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
   const [actionMsg, setActionMsg] = React.useState<string | null>(null);
 
-  const handleApprove = (id: number) => {
-    setAppointments(appts => appts.map(a => a.id === id ? { ...a, status: 'approved' } : a));
-    setActionMsg('Appointment approved!');
+  const fetchPendingAppointments = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.get(`${API_BASE}/appointments/vet`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // Only show pending appointments
+      setAppointments((res.data || []).filter((appt: any) => appt.status === 'pending'));
+    } catch (err: any) {
+      setError('Failed to load appointments');
+    }
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    if (token) fetchPendingAppointments();
+    // eslint-disable-next-line
+  }, [token]);
+
+  const handleApprove = async (id: number) => {
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      await axios.patch(`${API_BASE}/appointments/${id}`, { status: 'approved' }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAppointments((prev) => prev.filter((appt: any) => appt.id !== id));
+      setActionMsg('Appointment approved!');
+      fetchPendingAppointments();
+    } catch {
+      setActionMsg('Failed to approve appointment.');
+    }
     setTimeout(() => setActionMsg(null), 1500);
   };
-  const handleReject = (id: number) => {
-    setAppointments(appts => appts.map(a => a.id === id ? { ...a, status: 'rejected' } : a));
-    setActionMsg('Appointment rejected.');
+
+  const handleReject = async (id: number) => {
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      await axios.patch(`${API_BASE}/appointments/${id}`, { status: 'rejected' }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAppointments((prev) => prev.filter((appt: any) => appt.id !== id));
+      setActionMsg('Appointment rejected.');
+      fetchPendingAppointments();
+    } catch {
+      setActionMsg('Failed to reject appointment.');
+    }
     setTimeout(() => setActionMsg(null), 1500);
   };
+
+  if (loading) return <CircularProgress />;
+  if (error) return <Alert severity="error">{error}</Alert>;
 
   return (
     <Box>
       {actionMsg && <Typography color="success.main" mb={2}>{actionMsg}</Typography>}
       <List>
-        {appointments.map(appt => (
+        {appointments.length === 0 && (
+          <ListItem>
+            <ListItemText primary="No pending appointments to approve." />
+          </ListItem>
+        )}
+        {appointments.map((appt: any) => (
           <ListItem key={appt.id} divider>
             <ListItemText
-              primary={`Pet: ${appt.pet.name} | Owner: ${appt.owner.name}`}
+              primary={`Pet: ${appt.pet?.name || 'Pet'} | Owner: ${appt.petOwner?.name || 'Owner'}`}
               secondary={`Date: ${new Date(appt.datetime).toLocaleString()} | Status: ${appt.status}`}
             />
-            {appt.status === 'pending' && (
-              <Box>
-                <Button color="success" variant="contained" sx={{ mr: 1 }} onClick={() => handleApprove(appt.id)}>Approve</Button>
-                <Button color="error" variant="outlined" onClick={() => handleReject(appt.id)}>Reject</Button>
-              </Box>
-            )}
-            {appt.status !== 'pending' && (
-              <Typography color={appt.status === 'approved' ? 'success.main' : 'error.main'}>{appt.status.charAt(0).toUpperCase() + appt.status.slice(1)}</Typography>
-            )}
+            <Box>
+              <Button color="success" variant="contained" sx={{ mr: 1 }} onClick={() => handleApprove(appt.id)}>Approve</Button>
+              <Button color="error" variant="outlined" onClick={() => handleReject(appt.id)}>Reject</Button>
+            </Box>
           </ListItem>
         ))}
       </List>
     </Box>
   );
 }
+
 
 // --- Buy Membership Component (UI only) ---
 function BuyMembership({ profile, token, onUpdate }: { profile: any, token: string, onUpdate: (p: any) => void }) {

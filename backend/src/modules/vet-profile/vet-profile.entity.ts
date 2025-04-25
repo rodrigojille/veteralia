@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 
 @Entity()
@@ -24,4 +24,7 @@ export class VetProfile {
 
   @Column({ type: 'jsonb', nullable: true })
   schedule!: any; // To be refined
+
+  @CreateDateColumn()
+  createdAt!: Date;
 }

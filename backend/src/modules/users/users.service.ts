@@ -15,5 +15,11 @@ export class UsersService {
     return (await this.userRepo.findOne({ where: { id } })) ?? undefined;
   }
 
-  // Add more production-grade methods as needed
+  async countAll(): Promise<number> {
+    return this.userRepo.count();
+  }
+
+  async countByRole(role: 'pet_owner' | 'veterinarian' | 'secretary' | 'admin'): Promise<number> {
+    return this.userRepo.count({ where: { role } });
+  }
 }

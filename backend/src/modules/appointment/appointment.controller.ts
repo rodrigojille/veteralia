@@ -14,6 +14,13 @@ export class AppointmentController {
     return this.appointmentService.findAllForOwner(user.id);
   }
 
+  @Get('vet')
+  async getMyVetAppointments(@Req() req: Request) {
+    const user: any = req.user;
+    // Optionally, check user.role === 'veterinarian' here
+    return this.appointmentService.findAllForVet(user.id);
+  }
+
   @Post()
   async createAppointment(@Req() req: Request, @Body() data: any) {
     const user: any = req.user;

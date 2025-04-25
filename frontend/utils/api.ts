@@ -55,6 +55,25 @@ export async function addMedicalHistory(petId: string, event: any, token: string
   });
 }
 
+export async function updateAppointment(id: string, data: { datetime?: string; notes?: string }, token: string | null) {
+  return apiFetch(`/appointments/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  });
+}
+
+export async function getVetAppointments(token: string | null) {
+  return apiFetch('/appointments/vet', {
+    headers: {
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  });
+}
+
 export async function updateMedicalHistory(eventId: number, event: any, token: string) {
   return apiFetch(`/medical-history/${eventId}`, {
     method: 'PATCH',

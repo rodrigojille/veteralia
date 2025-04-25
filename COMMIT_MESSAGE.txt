@@ -1,0 +1,8 @@
+feat(admin-overview): polish analytics overview layout, padding, and alignment
+
+- Improved padding, spacing, and alignment for all analytics cards in the admin dashboard overview tab
+- Made cards visually balanced and consistent across screen sizes (mobile/tablet/desktop)
+- Ensured responsive layout using Material-UI Grid and Paper
+- No changes to logic, only UI/UX improvements for overview
+
+Backend analytics endpoint and module fixes included in this commit as well.

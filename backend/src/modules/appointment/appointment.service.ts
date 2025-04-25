@@ -40,8 +40,15 @@ export class AppointmentService {
     return this.appointmentRepo.save(appt);
   }
 
-  async update(id: string, ownerId: string, data: Partial<Appointment>) {
-    const appt = await this.appointmentRepo.findOne({ where: { id, petOwner: { id: ownerId } } });
+  async update(id: string, userId: string, data: Partial<Appointment>) {
+    // Allow update if user is either the pet owner or the veterinarian
+    const appt = await this.appointmentRepo.findOne({
+      where: [
+        { id, petOwner: { id: userId } },
+        { id, veterinarian: { id: userId } }
+      ],
+      relations: ['petOwner', 'veterinarian'],
+    });
     if (!appt) return null;
     Object.assign(appt, data);
     return this.appointmentRepo.save(appt);

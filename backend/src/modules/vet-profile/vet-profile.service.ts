@@ -115,6 +115,30 @@ export class VetProfileService {
     return this.vetProfileRepo.find({ where: { approved: false } });
   }
 
+  // Admin analytics helpers
+  async countAll() {
+    return this.vetProfileRepo.count();
+  }
+  async countApproved() {
+    return this.vetProfileRepo.count({ where: { approved: true } });
+  }
+  async countPerMonth() {
+    const raw = await this.vetProfileRepo.query(`
+      SELECT TO_CHAR("createdAt", 'YYYY-MM') as month, COUNT(*) as count
+      FROM vet_profile
+      GROUP BY month
+      ORDER BY month DESC
+      LIMIT 6
+    `);
+    return raw.reverse();
+  }
+  async findPending() {
+    return this.vetProfileRepo.createQueryBuilder('profile')
+      .leftJoinAndSelect('profile.user', 'user')
+      .where('profile.approved = :approved', { approved: false })
+      .getMany();
+  }
+
   // Admin: get all profiles (approved and unapproved) with user details
   async findAllProfilesWithUser() {
     return this.vetProfileRepo.createQueryBuilder('profile')

@@ -1,5 +1,6 @@
 console.log('DATABASE_URL:', process.env.DATABASE_URL);
 import { Module } from '@nestjs/common';
+import { AdminAnalyticsModule } from './modules/admin-analytics/admin-analytics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
@@ -18,6 +19,7 @@ import { AppController } from './app.controller';
 
 @Module({
   imports: [
+    AdminAnalyticsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL || undefined,

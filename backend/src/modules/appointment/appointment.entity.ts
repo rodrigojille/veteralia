@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Pet } from '../pet/pet.entity';
 
-export type AppointmentStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled';
+export type AppointmentStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'approved' | 'rejected';
 
 @Entity()
 export class Appointment {
@@ -27,6 +27,6 @@ export class Appointment {
   @Column({ nullable: true })
   notes?: string;
 
-  @Column({ type: 'enum', enum: ['pending', 'confirmed', 'completed', 'cancelled'], default: 'pending' })
+  @Column({ type: 'enum', enum: ['pending', 'confirmed', 'completed', 'cancelled', 'approved', 'rejected'], default: 'pending' })
   status!: AppointmentStatus;
 }
