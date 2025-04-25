@@ -117,35 +117,41 @@ export default function AdminDashboard() {
         </Tabs>
       </AppBar>
       {tab === 0 && (
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#f1faee" }}>
-              <Typography variant="h6">Pending Profiles</Typography>
-              <Typography variant="h3" color="#457b9d">{analytics ? analytics.pending : "-"}</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#f1faee" }}>
-              <Typography variant="h6">Total Vets</Typography>
-              <Typography variant="h3" color="#457b9d">{analytics ? analytics.total : "-"}</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#f1faee" }}>
-              <Typography variant="h6">Approved</Typography>
-              <Typography variant="h3" color="#457b9d">{analytics ? analytics.approved : "-"}</Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={3}>
+        <Box sx={{ width: '100%' }}>
+          <Grid container spacing={2} mb={3} justifyContent="center" alignItems="stretch">
+            {[{
+              label: 'Total Users', value: analytics?.totalUsers
+            }, {
+              label: 'Vets', value: analytics?.totalVets
+            }, {
+              label: 'Pet Owners', value: analytics?.totalPetOwners
+            }, {
+              label: 'Secretaries', value: analytics?.totalSecretaries
+            }, {
+              label: 'Admins', value: analytics?.totalAdmins
+            }, {
+              label: 'Total Pets', value: analytics?.totalPets
+            }].map((item, i) => (
+              <Grid item xs={12} sm={6} md={2} key={item.label} display="flex">
+                <Paper sx={{
+                  p: { xs: 2, sm: 3 },
+                  borderRadius: 3,
+                  bgcolor: '#f1faee',
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: 100
+                }}>
+                  <Typography variant="subtitle1" fontWeight={500} gutterBottom align="center">{item.label}</Typography>
+                  <Typography variant="h4" color="#457b9d" align="center">{item.value ?? '-'}</Typography>
+                </Paper>
               </Grid>
             ))}
           </Grid>
           <Grid container spacing={2} justifyContent="center" alignItems="stretch">
             {[{
-              label: 'Pending Profiles', value: analytics?.pending ?? '-' 
-            }, {
-              label: 'Total Vets', value: analytics?.total ?? '-' 
-            }, {
               label: 'Approved', value: analytics?.approved ?? '-' 
             }, {
               label: 'Approval Rate', value: analytics?.approvalRate !== undefined ? analytics.approvalRate + '%' : '-' 
