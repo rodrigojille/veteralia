@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
 export async function getAnalytics(token: string) {
-  const res = await axios.get(`${API_BASE}/vet-profile/analytics`, {
+  const res = await axios.get(`${API_BASE}/admin/analytics`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;

@@ -137,12 +137,38 @@ export default function AdminDashboard() {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={3}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#f1faee" }}>
-              <Typography variant="h6">Approval Rate</Typography>
-              <Typography variant="h3" color="#457b9d">{analytics ? analytics.approvalRate + "%" : "-"}</Typography>
-            </Paper>
+              </Grid>
+            ))}
           </Grid>
-        </Grid>
+          <Grid container spacing={2} justifyContent="center" alignItems="stretch">
+            {[{
+              label: 'Pending Profiles', value: analytics?.pending ?? '-' 
+            }, {
+              label: 'Total Vets', value: analytics?.total ?? '-' 
+            }, {
+              label: 'Approved', value: analytics?.approved ?? '-' 
+            }, {
+              label: 'Approval Rate', value: analytics?.approvalRate !== undefined ? analytics.approvalRate + '%' : '-' 
+            }].map((item, i) => (
+              <Grid item xs={12} sm={6} md={3} key={item.label} display="flex">
+                <Paper sx={{
+                  p: { xs: 2, sm: 3 },
+                  borderRadius: 3,
+                  bgcolor: '#f1faee',
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minHeight: 100
+                }}>
+                  <Typography variant="subtitle1" fontWeight={500} gutterBottom align="center">{item.label}</Typography>
+                  <Typography variant="h4" color="#457b9d" align="center">{item.value}</Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       )}
       {tab === 1 && (
         <Paper sx={{ p: 3, borderRadius: 3, mt: 2 }}>
@@ -177,28 +203,32 @@ export default function AdminDashboard() {
         </Paper>
       )}
       {tab === 2 && (
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
-            <Paper sx={{ p: 3, borderRadius: 3 }}>
+            <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>
               <Typography variant="h6" mb={2} color="#1d3557">Analytics</Typography>
-              {analytics && analytics.perMonth && (
+              {analytics && analytics.perMonth && analytics.perMonth.length > 0 ? (
                 <Box>
                   <Typography variant="subtitle1" mb={1}>Profiles Created Per Month</Typography>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={analytics.perMonth} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis allowDecimals={false} />
-                      <Tooltip />
-                      <Bar dataKey="count" fill="#457b9d" radius={[8,8,0,0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <Box sx={{ width: '100%', height: { xs: 200, sm: 300 } }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={analytics.perMonth} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="month" fontSize={12} />
+                        <YAxis allowDecimals={false} fontSize={12} />
+                        <Tooltip />
+                        <Bar dataKey="count" fill="#457b9d" radius={[8,8,0,0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </Box>
                 </Box>
+              ) : (
+                <Typography variant="body2" color="text.secondary">No analytics data available.</Typography>
               )}
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Paper sx={{ p: 3, borderRadius: 3 }}>
+            <Paper sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, mt: { xs: 2, md: 0 } }}>
               <Typography variant="h6" mb={2} color="#1d3557">Recent Admin Actions</Typography>
               <List>
                 {recentActions.map((action, i) => (
