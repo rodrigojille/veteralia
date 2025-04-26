@@ -25,6 +25,15 @@ export class User {
   @Column({ default: 'es' })
   language!: 'es' | 'en';
 
+  @Column({ default: false })
+  isEmailVerified!: boolean;
+
+  @Column({ nullable: true })
+  passwordResetToken?: string;
+
+  @Column({ nullable: true })
+  emailVerificationToken?: string;
+
   // Add relation to VetProfile
   @OneToOne(() => VetProfile, profile => profile.user)
   vetProfile?: VetProfile;

@@ -7,6 +7,7 @@ import { VetProfile } from '../vet-profile/vet-profile.entity';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtStrategy } from './jwt.strategy';
       secret: process.env.JWT_SECRET || 'secret',
       signOptions: { expiresIn: '7d' },
     }),
+    NotificationModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

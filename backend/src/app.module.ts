@@ -16,6 +16,7 @@ import { Appointment } from './modules/appointment/appointment.entity';
 import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 import { VetAvailabilityModule } from './modules/vet-availability/vet-availability.module';
 import { AppController } from './app.controller';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AppController } from './app.controller';
     VetProfileModule,
     MedicalHistoryModule,
     VetAvailabilityModule,
+    NotificationModule,
   ],
   controllers: [AppController],
 })

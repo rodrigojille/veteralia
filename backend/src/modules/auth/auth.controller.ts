@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
 
+
   @UseGuards(AuthGuard('jwt'))
   @Get('test-jwt')
   testJwt(@Req() req: Request) {
@@ -25,5 +26,25 @@ export class AuthController {
   @Post('login')
   async login(@Body(new ValidationPipe()) loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('verify-email')
+  async verifyEmail(@Body('token') token: string) {
+    return this.authService.verifyEmail(token);
+  }
+
+  @Post('request-password-reset')
+  async requestPasswordReset(@Body(new ValidationPipe()) body: { email: string }) {
+    return this.authService.requestPasswordReset(body.email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body(new ValidationPipe()) body: { token: string, newPassword: string }) {
+    return this.authService.resetPassword(body.token, body.newPassword);
+  }
+
+  @Post('resend-verification-email')
+  async resendVerificationEmail(@Body(new ValidationPipe()) body: { email: string }) {
+    return this.authService.resendVerificationEmail(body.email);
   }
 }

@@ -19,8 +19,14 @@ export async function apiFetch<T = any>(endpoint: string, options?: RequestInit)
   });
 
   if (!response.ok) {
-    // Optionally, handle errors globally here
-    throw new Error(`API error: ${response.status} ${response.statusText}`);
+    let errorMsg = `API error: ${response.status} ${response.statusText}`;
+    try {
+      const data = await response.json();
+      if (data && data.message) {
+        errorMsg = JSON.stringify({ message: data.message });
+      }
+    } catch {}
+    throw new Error(errorMsg);
   }
 
   // Optionally, handle no-content (204) responses

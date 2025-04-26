@@ -1,8 +1,112 @@
 import React, { useState } from "react";
 import Link from 'next/link';
 import { useRouter } from "next/router";
-import { Box, Button, Container, Paper, Typography, TextField } from "@mui/material";
+import { Box, Button, Container, Paper, Typography, TextField, Alert } from "@mui/material";
 import { apiFetch } from '../utils/api';
+// Botón para reenviar correo de verificación
+function ResendVerificationEmail({ email }: { email: string }) {
+  const [success, setSuccess] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
+
+  const handleResend = async () => {
+    setSuccess(""); setError(""); setLoading(true);
+    try {
+      const res = await fetch("http://localhost:4000/auth/resend-verification-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      setSuccess(data.message || "Si el correo no está verificado, se ha reenviado el correo de verificación.");
+    } catch {
+      setError("Ocurrió un error. Intenta de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ marginTop: 8 }}>
+      <button type="button" onClick={handleResend} disabled={loading || !!success} style={{ background: '#00BFA6', color: 'white', border: 'none', borderRadius: 4, padding: '6px 14px', fontWeight: 600, marginRight: 8 }}>
+        {loading ? "Enviando..." : "Reenviar correo de verificación"}
+      </button>
+      {success && <span style={{ color: '#00BFA6', marginLeft: 8 }}>{success}</span>}
+      {error && <span style={{ color: 'red', marginLeft: 8 }}>{error}</span>}
+    </div>
+  );
+}
+
+// Componente inline para recuperación de contraseña
+function ForgotPasswordInline({ loginEmail }: { loginEmail: string }) {
+  const [show, setShow] = React.useState(false);
+  const [email, setEmail] = React.useState(loginEmail || "");
+  const [success, setSuccess] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const [log, setLog] = React.useState("");
+
+  // Update email if loginEmail changes (e.g., after failed login)
+  React.useEffect(() => {
+    if (loginEmail && !show) setEmail(loginEmail);
+  }, [loginEmail, show]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLog(`Intentando enviar reset para: ${email}`);
+    setError("");
+    setSuccess("");
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:4000/auth/request-password-reset", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      setSuccess(data.message || "Si el correo existe, se ha enviado un enlace para restablecer la contraseña.");
+    } catch (err) {
+      setError("Ocurrió un error. Intenta de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!show) {
+    return (
+      <Button type="button" onClick={() => setShow(true)} sx={{ textTransform: 'none', color: "#00BFA6" }}>
+        ¿Olvidaste tu contraseña?
+      </Button>
+    );
+  }
+  return (
+    <Box display="flex" flexDirection="column" alignItems="center" mt={2}>
+      <Paper elevation={1} sx={{ p: 2, borderRadius: 2, minWidth: 320, maxWidth: 400 }}>
+        <Typography align="center" fontWeight={600} mb={1}>
+          ¿Olvidaste tu contraseña?
+        </Typography>
+        <Box display="flex" flexDirection="column" gap={2}>
+          <TextField
+            label="Correo electrónico"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            disabled={loading || !!success}
+            fullWidth
+            size="small"
+          />
+          <Button onClick={handleSubmit} variant="contained" color="primary" fullWidth disabled={loading || !!success} sx={{ fontWeight: 600 }}>
+            {loading ? "Enviando..." : "Restablecer"}
+          </Button>
+          {success && <Alert severity="success">{success}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
+          {log && <Alert severity="info">{log}</Alert>}
+        </Box>
+      </Paper>
+    </Box>
+  );
+}
+
 // Minimal JWT payload decoder (no dependency)
 function decodeJwtPayload(token: string) {
   const payload = token.split('.')[1];
@@ -35,8 +139,27 @@ export default function UserLogin() {
         router.push("/dashboard");
       }
     } catch (err: any) {
-      setError("Invalid login. Please check your credentials.");
-      console.error("Login error:", err); // Debug log
+      let msg = "Error de inicio de sesión.";
+      if (err && err.message) {
+        // Try to extract backend message
+        const match = err.message.match(/\{.*\}/);
+        if (match) {
+          try {
+            const parsed = JSON.parse(match[0]);
+            msg = parsed.message || msg;
+          } catch {
+            msg = err.message;
+          }
+        } else {
+          msg = err.message;
+        }
+      }
+      // Traducir mensajes comunes al español
+      if (msg.toLowerCase().includes('invalid credentials')) {
+        msg = 'Correo o contraseña incorrectos.';
+      }
+      setError(msg);
+      console.error("Login error:", err);
     }
   };
 
@@ -77,10 +200,23 @@ export default function UserLogin() {
               inputProps={{ minLength: 6 }}
             />
           </Box>
-          {error && <Typography color="error" mb={2}>{error}</Typography>}
+          {error && <>
+        <Alert severity="error" sx={{ mb: error.includes('verifica tu correo electrónico') ? 1 : 2 }}>
+          {error}
+        </Alert>
+        {error.includes('verifica tu correo electrónico') && (
+          <Box display="flex" flexDirection="column" alignItems="center" width="100%" mb={2}>
+            <ResendVerificationEmail email={email} />
+          </Box>
+        )}
+      </>}
+
           <Button type="submit" variant="contained" color="primary" fullWidth sx={{ borderRadius: 2, py: 1.5, fontWeight: 600, fontSize: 18 }}>
             Iniciar sesión
           </Button>
+          <Box mt={2} textAlign="right">
+            <ForgotPasswordInline loginEmail={email} />
+          </Box>
         </form>
         <Box textAlign="center" mt={3}>
           <Typography variant="body2">
