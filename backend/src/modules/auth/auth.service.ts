@@ -12,6 +12,7 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
+  private readonly FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -113,7 +114,7 @@ export class AuthService {
     const resetToken = crypto.randomBytes(32).toString('hex');
     (user as any).passwordResetToken = resetToken;
     await this.userRepository.save(user);
-    const resetUrl = `http://localhost:3000/auth/reset-password?token=${resetToken}`;
+    const resetUrl = `${this.FRONTEND_URL}/auth/reset-password?token=${resetToken}`;
     const subject = 'Restablece tu contraseña';
     const html = `<p>Hola ${user.name},</p><p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`;
     await this.notificationService.sendEmail(user.email, subject, html);
