@@ -57,7 +57,7 @@ export class AuthService {
     }
 
     // Send verification email
-    const verifyUrl = `http://localhost:3000/auth/verify-email?token=${verificationToken}`;
+    const verifyUrl = `${this.FRONTEND_URL}/auth/verify-email?token=${verificationToken}`;
     const subject = 'Verifica tu correo electrónico';
     const html = `<p>Hola ${name},</p><p>Por favor verifica tu correo electrónico haciendo clic en el siguiente enlace:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
     await this.notificationService.sendEmail(email, subject, html);
@@ -149,7 +149,7 @@ export class AuthService {
     const verificationToken = crypto.randomBytes(32).toString('hex');
     user.emailVerificationToken = verificationToken;
     await this.userRepository.save(user);
-    const verifyUrl = `http://localhost:3000/auth/verify-email?token=${verificationToken}`;
+    const verifyUrl = `${this.FRONTEND_URL}/auth/verify-email?token=${verificationToken}`;
     const subject = 'Verifica tu correo electrónico';
     const html = `<p>Hola ${user.name},</p><p>Por favor verifica tu correo electrónico haciendo clic en el siguiente enlace:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`;
     await this.notificationService.sendEmail(user.email, subject, html);
