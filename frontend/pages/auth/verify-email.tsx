@@ -8,7 +8,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     if (typeof token === "string") {
-      fetch("http://localhost:4000/auth/verify-email", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/auth/verify-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),

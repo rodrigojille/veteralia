@@ -12,7 +12,7 @@ function ResendVerificationEmail({ email }: { email: string }) {
   const handleResend = async () => {
     setSuccess(""); setError(""); setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/auth/resend-verification-email", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/auth/resend-verification-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -58,7 +58,7 @@ function ForgotPasswordInline({ loginEmail }: { loginEmail: string }) {
     setSuccess("");
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/auth/request-password-reset", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/auth/request-password-reset`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
