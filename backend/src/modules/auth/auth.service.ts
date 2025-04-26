@@ -23,8 +23,7 @@ export class AuthService {
   ) {
     console.log('[AuthService] FRONTEND_URL:', this.FRONTEND_URL);
   }
-    console.log('[AuthService] FRONTEND_URL:', this.FRONTEND_URL);
-  }
+
 
   async signup(signupDto: SignupDto) {
     const { email, password, name, role, language } = signupDto;
