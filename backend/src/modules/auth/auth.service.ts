@@ -13,13 +13,18 @@ import * as jwt from 'jsonwebtoken';
 @Injectable()
 export class AuthService {
   private readonly FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(VetProfile)
     private readonly vetProfileRepository: Repository<VetProfile>,
     private readonly notificationService: NotificationService,
-  ) {}
+  ) {
+    console.log('[AuthService] FRONTEND_URL:', this.FRONTEND_URL);
+  }
+    console.log('[AuthService] FRONTEND_URL:', this.FRONTEND_URL);
+  }
 
   async signup(signupDto: SignupDto) {
     const { email, password, name, role, language } = signupDto;
