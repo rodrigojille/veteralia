@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class AddPasswordResetAndVerificationFieldsToUser1714092300 implements MigrationInterface {
+export class Migration1714092300 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "user" ADD "isEmailVerified" boolean NOT NULL DEFAULT false`);
         await queryRunner.query(`ALTER TABLE "user" ADD "passwordResetToken" character varying`);
